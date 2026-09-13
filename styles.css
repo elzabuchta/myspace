@@ -1,0 +1,717 @@
+/* ==========================================================================
+   MYSPACE THEME FOR DONNA SHERIDAN (MAMMA MIA!)
+   Palette: Aegean Sky Light Blue, Mediterranean Teal, Whitewashed White, Sun Gold
+   Vibe: Greek Island Mosaic, Mid-2000s MySpace Nostalgia, Southern Rustic Chaos
+   ========================================================================== */
+
+:root {
+  --bg-sky: #e0f4fc;
+  --aegean-blue: #0077b6;
+  --deep-aegean: #023e8a;
+  --med-turquoise: #48cae4;
+  --greek-light-blue: #90e0ef;
+  --greek-white: #f8f9fa;
+  --sun-gold: #ffb703;
+  --coral-accent: #fb8500;
+  --text-dark: #1d3557;
+  --border-blue: #0096c7;
+  --myspace-link: #004b23;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-sky);
+  background-image:
+    radial-gradient(circle, rgba(0, 119, 182, 0.15) 2px, transparent 2px),
+    linear-gradient(to bottom, #bde0fe 0%, #edf6f9 100%);
+  background-size: 24px 24px, 100% 100%;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+/* Links */
+a {
+  color: #003399;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #cc0000;
+}
+
+/* Header Navbar */
+.myspace-header {
+  background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
+  color: white;
+  padding: 8px 15px;
+  border-bottom: 3px solid var(--sun-gold);
+}
+
+.nav-container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.ms-logo {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  color: #ffffff;
+}
+
+.tagline {
+  font-style: italic;
+  font-size: 11px;
+  color: var(--greek-light-blue);
+}
+
+.nav-search input {
+  font-size: 11px;
+  padding: 2px 6px;
+  border: 1px solid var(--border-blue);
+}
+
+.nav-search button {
+  background: var(--sun-gold);
+  border: 1px solid #d4a373;
+  color: #000;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.nav-links {
+  font-size: 11px;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Wrapper */
+.myspace-wrapper {
+  max-width: 960px;
+  margin: 15px auto;
+  padding: 10px;
+  background-color: var(--greek-white);
+  border: 4px solid var(--aegean-blue);
+  box-shadow: 0 0 20px rgba(0, 119, 182, 0.3);
+  border-radius: 4px;
+}
+
+/* Marquee / Status Ticker */
+.status-ticker {
+  background: #caf0f8;
+  border: 1px dashed var(--aegean-blue);
+  color: var(--deep-aegean);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+/* Container Layout Grid */
+.profile-container {
+  display: flex;
+  gap: 15px;
+}
+
+.left-column {
+  width: 38%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.right-column {
+  width: 62%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Generic MySpace Box Styling */
+.profile-box {
+  background: #ffffff;
+  border: 2px solid var(--aegean-blue);
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 0px var(--med-turquoise);
+}
+
+.box-title {
+  background: linear-gradient(90deg, var(--aegean-blue) 0%, var(--med-turquoise) 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin: -10px -10px 10px -10px;
+  border-bottom: 2px solid var(--deep-aegean);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Left Column: User Identity */
+.user-identity {
+  background: #f0f9ff;
+}
+
+.user-name {
+  font-size: 20px;
+  color: var(--deep-aegean);
+  margin-bottom: 2px;
+}
+
+.profile-headline {
+  font-style: italic;
+  color: #457b9d;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+.mosaic-border {
+  padding: 6px;
+  background-color: #0077b6;
+  background-image: repeating-linear-gradient(45deg, #0077b6 0, #0077b6 10px, #90e0ef 10px, #90e0ef 20px, #ffb703 20px, #ffb703 25px);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.donna-avatar-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+}
+
+.online-now {
+  background: #e8f5e9;
+  border: 1px solid #81c784;
+  color: #2e7d32;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px;
+  font-size: 11px;
+  border-radius: 3px;
+}
+
+.online-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  margin-right: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.user-details-list {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.user-details-list li {
+  padding: 3px 0;
+  border-bottom: 1px dotted #bcd4e6;
+}
+
+/* Contact Box */
+.contact-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.btn-ms {
+  background: linear-gradient(180deg, #ffffff 0%, #e0f4fc 100%);
+  border: 1px solid var(--aegean-blue);
+  color: var(--deep-aegean);
+  padding: 6px 4px;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.btn-ms:hover {
+  background: var(--sun-gold);
+  color: #000;
+  border-color: #d4a373;
+}
+
+/* MySpace URL Box */
+.url-box h3 {
+  font-size: 11px;
+  color: var(--deep-aegean);
+}
+
+.url-box p {
+  font-size: 10px;
+  word-break: break-all;
+  color: #003399;
+  background: #eaf4f8;
+  padding: 4px;
+  border: 1px solid #bde0fe;
+  margin-top: 4px;
+}
+
+/* Interests Table */
+.interests-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.interests-table td {
+  padding: 5px;
+  vertical-align: top;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.interests-table .label {
+  width: 30%;
+  background-color: #eaf4f8;
+  color: var(--deep-aegean);
+  font-weight: bold;
+}
+
+/* Hotel Promo Banner */
+.hotel-promo {
+  background: linear-gradient(135deg, #fff9e6 0%, #e0f4fc 100%);
+  border: 2px dashed var(--sun-gold);
+}
+
+.hotel-features {
+  margin: 8px 0 8px 18px;
+  font-size: 10px;
+}
+
+.booking-btn {
+  width: 100%;
+  background: var(--coral-accent);
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.booking-btn:hover {
+  background: #e07a5f;
+}
+
+/* Right Column: Music Player */
+.music-player-box {
+  background: #1b263b;
+  color: #ffffff;
+  border: 2px solid var(--sun-gold);
+}
+
+.player-header {
+  background: var(--sun-gold);
+  color: #000;
+  padding: 5px 8px;
+  font-weight: bold;
+  font-size: 11px;
+  margin: -10px -10px 10px -10px;
+}
+
+.player-body {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #0d1b2a;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #415a77;
+}
+
+.album-art {
+  width: 75px;
+  height: 75px;
+  background: linear-gradient(45deg, #ff007f, #7928ca, #00dfd8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 8px rgba(255,183,3,0.5);
+}
+
+.dynamos-logo {
+  font-weight: 900;
+  font-size: 10px;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px #000;
+  line-height: 1.1;
+}
+
+.player-controls {
+  flex-grow: 1;
+}
+
+.song-info {
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: #e0e1dd;
+}
+
+.time-bar {
+  width: 100%;
+  height: 8px;
+  background: #415a77;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.time-progress {
+  width: 35%;
+  height: 100%;
+  background: var(--sun-gold);
+  transition: width 0.3s;
+}
+
+.player-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.player-btns button {
+  background: var(--aegean-blue);
+  color: white;
+  border: 1px solid var(--greek-light-blue);
+  padding: 3px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.player-btns button:hover {
+  background: var(--sun-gold);
+  color: black;
+}
+
+.playlist ul {
+  list-style: none;
+  margin-top: 8px;
+}
+
+.playlist li {
+  padding: 4px 6px;
+  font-size: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #2b3a4a;
+}
+
+.playlist li:hover, .playlist li.active {
+  background: #415a77;
+  color: var(--sun-gold);
+}
+
+/* Blurbs Box */
+.blurb-section {
+  margin-bottom: 12px;
+}
+
+.sub-title {
+  color: var(--coral-accent);
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  border-bottom: 1px dashed var(--coral-accent);
+}
+
+.quote-box {
+  background: #e0f4fc;
+  border-left: 4px solid var(--aegean-blue);
+  padding: 8px;
+  font-style: italic;
+  font-weight: bold;
+  color: var(--deep-aegean);
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+/* Diary & Dad Mystery Box */
+.diary-mystery-box {
+  background: #fff0f5;
+  border-color: #ffb6c1;
+}
+
+.diary-intro {
+  margin-bottom: 10px;
+  color: #8b008b;
+}
+
+.dad-cards {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dad-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #ffb6c1;
+  padding: 8px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.dad-card:hover {
+  transform: translateY(-2px);
+  background: #ffe4e1;
+}
+
+.dad-avatar {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.dad-card strong {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dark);
+}
+
+.dad-card small {
+  display: block;
+  font-size: 9px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.reveal-btn {
+  background: #ff69b4;
+  color: white;
+  border: none;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.diary-output {
+  background: #ffffff;
+  border: 1px dashed #ff69b4;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #4a0033;
+  min-height: 50px;
+  border-radius: 4px;
+}
+
+/* Top 8 Friends Section */
+.top-friends-box {
+  background: #ffffff;
+}
+
+.top-friends-count {
+  font-weight: bold;
+  color: var(--deep-aegean);
+  margin-bottom: 10px;
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.friend-card {
+  text-align: center;
+  background: #f0f9ff;
+  border: 1px solid #bde0fe;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.friend-name {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-img-frame {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 4px auto;
+  border: 2px solid var(--aegean-blue);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.friend-avatar {
+  font-size: 32px;
+}
+
+.friend-status {
+  display: block;
+  font-size: 9px;
+  color: #555;
+  font-style: italic;
+  height: 24px;
+  overflow: hidden;
+}
+
+/* Guestbook Section */
+.add-comment-form {
+  background: #eaf4f8;
+  border: 1px solid var(--border-blue);
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.add-comment-form h4 {
+  color: var(--deep-aegean);
+  margin-bottom: 6px;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.form-row input, .form-row select {
+  padding: 4px;
+  font-size: 11px;
+  border: 1px solid var(--border-blue);
+  border-radius: 2px;
+}
+
+.form-row input {
+  flex-grow: 1;
+}
+
+.add-comment-form textarea {
+  width: 100%;
+  padding: 4px;
+  font-size: 11px;
+  border: 1px solid var(--border-blue);
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+
+.post-btn {
+  background: var(--aegean-blue);
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.post-btn:hover {
+  background: var(--deep-aegean);
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #d0e1fd;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.comment-author {
+  width: 100px;
+  text-align: center;
+  flex-shrink: 0;
+  border-right: 1px dotted #bcd4e6;
+  padding-right: 8px;
+}
+
+.author-pic {
+  font-size: 28px;
+  margin-bottom: 2px;
+}
+
+.comment-date {
+  display: block;
+  font-size: 8px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.comment-text {
+  flex-grow: 1;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+/* Footer */
+.myspace-footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 10px;
+  color: #666;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+  .left-column, .right-column {
+    width: 100%;
+  }
+  .friends-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
