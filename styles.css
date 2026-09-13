@@ -198,9 +198,10 @@ a:hover {
   margin-bottom: 8px;
 }
 
-.donna-avatar-svg {
+.donna-avatar-img {
   width: 100%;
-  height: auto;
+  max-height: 380px;
+  object-fit: cover;
   display: block;
   border: 2px solid #ffffff;
   border-radius: 4px;
