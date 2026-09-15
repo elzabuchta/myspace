@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#001d3d" rx="10"/>
+  <!-- Tan Face -->
+  <circle cx="50" cy="42" r="22" fill="#e0a96d"/>
+  <!-- Dark wavy hair -->
+  <path d="M 26 38 C 25 15, 75 15, 74 38 Z" fill="#2b2d42"/>
+  <!-- Eyes & Smile -->
+  <circle cx="40" cy="40" r="2" fill="#000"/>
+  <circle cx="60" cy="40" r="2" fill="#000"/>
+  <path d="M 40 52 Q 50 58 60 52" stroke="#000" stroke-width="2" fill="none"/>
+  <!-- Wetsuit / Beach Shirt -->
+  <path d="M 20 100 Q 50 68 80 100 Z" fill="#00b4d8"/>
+</svg>

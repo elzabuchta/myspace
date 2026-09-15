@@ -16,10 +16,6 @@ def run_cuj(page):
     page.click("text=Harry Bright")
     page.wait_for_timeout(1000)
 
-    # Play Music Track
-    page.click("#play-btn")
-    page.wait_for_timeout(1000)
-
     # Take screenshot
     page.screenshot(path="/home/jules/verification/screenshots/myspace_donna.png", full_page=True)
     page.wait_for_timeout(1000)

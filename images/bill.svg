@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#001d3d" rx="10"/>
+  <circle cx="50" cy="40" r="22" fill="#e8c39e"/>
+  <!-- Blonde Sailor Hair & Sailor Cap -->
+  <path d="M 28 35 C 28 20, 72 20, 72 35 Z" fill="#e9c46a"/>
+  <path d="M 25 25 L 75 25 L 70 12 L 30 12 Z" fill="#ffffff"/>
+  <rect x="23" y="23" width="54" height="4" fill="#0077b6"/>
+  <!-- Eyes & Smile -->
+  <circle cx="40" cy="38" r="2" fill="#000"/>
+  <circle cx="60" cy="38" r="2" fill="#000"/>
+  <path d="M 40 50 Q 50 56 60 50" stroke="#000" stroke-width="2" fill="none"/>
+  <!-- Sailor Striped Shirt -->
+  <path d="M 20 100 Q 50 68 80 100 Z" fill="#0077b6"/>
+</svg>

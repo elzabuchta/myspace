@@ -5,17 +5,18 @@
    ========================================================================== */
 
 :root {
-  --bg-sky: #e0f4fc;
-  --aegean-blue: #0077b6;
-  --deep-aegean: #023e8a;
-  --med-turquoise: #48cae4;
-  --greek-light-blue: #90e0ef;
-  --greek-white: #f8f9fa;
-  --sun-gold: #ffb703;
-  --coral-accent: #fb8500;
-  --text-dark: #1d3557;
-  --border-blue: #0096c7;
-  --myspace-link: #004b23;
+  --navy-blue: #0a192f;
+  --navy-header: #001d3d;
+  --navy-accent: #003566;
+  --turquoise: #00b4d8;
+  --light-turquoise: #90e0ef;
+  --beige: #f5f0eb;
+  --beige-dark: #e8dfd8;
+  --greek-white: #ffffff;
+  --sun-gold: #ffc300;
+  --text-dark: #000814;
+  --border-navy: #003566;
+  --myspace-link: #001d3d;
 }
 
 * {
@@ -25,10 +26,10 @@
 }
 
 body {
-  background-color: var(--bg-sky);
+  background-color: var(--navy-blue);
   background-image:
-    radial-gradient(circle, rgba(0, 119, 182, 0.15) 2px, transparent 2px),
-    linear-gradient(to bottom, #bde0fe 0%, #edf6f9 100%);
+    radial-gradient(circle, rgba(0, 180, 216, 0.2) 2px, transparent 2px),
+    linear-gradient(to bottom, #0a192f 0%, #001d3d 100%);
   background-size: 24px 24px, 100% 100%;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 11px;
@@ -49,10 +50,10 @@ a:hover {
 
 /* Header Navbar */
 .myspace-header {
-  background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
+  background: linear-gradient(180deg, var(--navy-header) 0%, var(--navy-blue) 100%);
   color: white;
   padding: 8px 15px;
-  border-bottom: 3px solid var(--sun-gold);
+  border-bottom: 3px solid var(--turquoise);
 }
 
 .nav-container {
@@ -75,19 +76,19 @@ a:hover {
 .tagline {
   font-style: italic;
   font-size: 11px;
-  color: var(--greek-light-blue);
+  color: var(--light-turquoise);
 }
 
 .nav-search input {
   font-size: 11px;
   padding: 2px 6px;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--turquoise);
 }
 
 .nav-search button {
-  background: var(--sun-gold);
-  border: 1px solid #d4a373;
-  color: #000;
+  background: var(--turquoise);
+  border: 1px solid var(--navy-accent);
+  color: #fff;
   font-size: 11px;
   font-weight: bold;
   padding: 2px 8px;
@@ -113,17 +114,17 @@ a:hover {
   max-width: 960px;
   margin: 15px auto;
   padding: 10px;
-  background-color: var(--greek-white);
-  border: 4px solid var(--aegean-blue);
-  box-shadow: 0 0 20px rgba(0, 119, 182, 0.3);
+  background-color: var(--beige);
+  border: 4px solid var(--turquoise);
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.4);
   border-radius: 4px;
 }
 
 /* Marquee / Status Ticker */
 .status-ticker {
-  background: #caf0f8;
-  border: 1px dashed var(--aegean-blue);
-  color: var(--deep-aegean);
+  background: var(--navy-header);
+  border: 1px dashed var(--turquoise);
+  color: var(--light-turquoise);
   font-size: 12px;
   font-weight: bold;
   padding: 6px;
@@ -154,32 +155,32 @@ a:hover {
 /* Generic MySpace Box Styling */
 .profile-box {
   background: #ffffff;
-  border: 2px solid var(--aegean-blue);
+  border: 2px solid var(--navy-accent);
   padding: 10px;
   border-radius: 3px;
-  box-shadow: 2px 2px 0px var(--med-turquoise);
+  box-shadow: 2px 2px 0px var(--turquoise);
 }
 
 .box-title {
-  background: linear-gradient(90deg, var(--aegean-blue) 0%, var(--med-turquoise) 100%);
+  background: linear-gradient(90deg, var(--navy-header) 0%, var(--navy-accent) 100%);
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
   padding: 4px 8px;
   margin: -10px -10px 10px -10px;
-  border-bottom: 2px solid var(--deep-aegean);
+  border-bottom: 2px solid var(--turquoise);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 /* Left Column: User Identity */
 .user-identity {
-  background: #f0f9ff;
+  background: #ffffff;
 }
 
 .user-name {
   font-size: 20px;
-  color: var(--deep-aegean);
+  color: var(--navy-header);
   margin-bottom: 2px;
 }
 
@@ -192,8 +193,8 @@ a:hover {
 
 .mosaic-border {
   padding: 6px;
-  background-color: #0077b6;
-  background-image: repeating-linear-gradient(45deg, #0077b6 0, #0077b6 10px, #90e0ef 10px, #90e0ef 20px, #ffb703 20px, #ffb703 25px);
+  background-color: var(--navy-header);
+  background-image: repeating-linear-gradient(45deg, var(--navy-header) 0, var(--navy-header) 10px, var(--turquoise) 10px, var(--turquoise) 20px, var(--beige) 20px, var(--beige) 25px);
   border-radius: 6px;
   margin-bottom: 8px;
 }
@@ -252,9 +253,9 @@ a:hover {
 }
 
 .btn-ms {
-  background: linear-gradient(180deg, #ffffff 0%, #e0f4fc 100%);
-  border: 1px solid var(--aegean-blue);
-  color: var(--deep-aegean);
+  background: linear-gradient(180deg, #ffffff 0%, var(--beige) 100%);
+  border: 1px solid var(--navy-accent);
+  color: var(--navy-header);
   padding: 6px 4px;
   font-size: 10px;
   font-weight: bold;
@@ -264,9 +265,9 @@ a:hover {
 }
 
 .btn-ms:hover {
-  background: var(--sun-gold);
-  color: #000;
-  border-color: #d4a373;
+  background: var(--turquoise);
+  color: #ffffff;
+  border-color: var(--navy-header);
 }
 
 /* MySpace URL Box */
@@ -334,18 +335,24 @@ a:hover {
 
 /* Right Column: Music Player */
 .music-player-box {
-  background: #1b263b;
+  background: var(--navy-header);
   color: #ffffff;
-  border: 2px solid var(--sun-gold);
+  border: 2px solid var(--turquoise);
 }
 
 .player-header {
-  background: var(--sun-gold);
-  color: #000;
+  background: var(--turquoise);
+  color: #001d3d;
   padding: 5px 8px;
   font-weight: bold;
   font-size: 11px;
   margin: -10px -10px 10px -10px;
+}
+
+.youtube-player-container {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .player-body {
@@ -585,8 +592,19 @@ a:hover {
   border-radius: 3px;
 }
 
-.friend-avatar {
-  font-size: 32px;
+.friend-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.diary-avatar-img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 4px;
 }
 
 .friend-status {
@@ -702,6 +720,37 @@ a:hover {
   color: #666;
   border-top: 1px solid #ccc;
   margin-top: 20px;
+}
+
+/* Falling Seashells Container */
+#seashells-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.seashell {
+  position: absolute;
+  top: -40px;
+  user-select: none;
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0.2;
+  }
 }
 
 /* Responsive adjustments */

@@ -114,53 +114,18 @@
           </table>
         </div>
 
-        <!-- Villa Donna Hotel Promo Banner -->
-        <div class="profile-box hotel-promo">
-          <h2 class="box-title">🏛️ VILLA DONNA HOSTEL & TAVERNA</h2>
-          <p><em>"The ultimate Greek Island get-away with authentic rustic charm (and occasionally leaking roofs)!"</em></p>
-          <ul class="hotel-features">
-            <li>🌊 Breathtaking views of the Aegean Sea</li>
-            <li>🐐 Authentic local goats included at no extra charge</li>
-            <li>🍷 Free glass of ouzo upon check-in</li>
-            <li>💃 Spontaneous singing & dancing on the courtyard tables</li>
-          </ul>
-          <button class="booking-btn" onclick="triggerGreekOuzoAlert()">BOOK YOUR STAY FOR SOPHIE'S WEDDING! 🎉</button>
-        </div>
-
       </aside>
 
       <!-- RIGHT COLUMN -->
       <section class="right-column">
 
-        <!-- Custom Music Player Simulation (Donna & The Dynamos Player) -->
+        <!-- MySpace Music Player with Embedded YouTube Video -->
         <div class="profile-box music-player-box">
           <div class="player-header">
-            <span>🎵 MYSPACE MUSIC PLAYER: <strong>Donna & The Dynamos - Live at Kalokairi</strong></span>
+            <span>🎵 MYSPACE MUSIC PLAYER: <strong>Donna Sheridan - Featured Song</strong></span>
           </div>
-          <div class="player-body">
-            <div class="album-art">
-              <div class="dynamos-logo">DONNA<br>& THE DYNAMOS</div>
-            </div>
-            <div class="player-controls">
-              <div class="song-info">
-                <span id="current-song-title">Track 1: Dancing Queen (Dynamos Acoustic Mix)</span>
-                <div class="time-bar"><div class="time-progress" id="progress-bar"></div></div>
-              </div>
-              <div class="player-btns">
-                <button onclick="prevTrack()">⏮️ Prev</button>
-                <button id="play-btn" onclick="togglePlay()">▶️ Play Synth Track</button>
-                <button onclick="nextTrack()">⏭️ Next</button>
-                <span class="volume-icon">🔊</span>
-              </div>
-            </div>
-          </div>
-          <div class="playlist">
-            <ul>
-              <li class="active" onclick="selectTrack(0)">1. Dancing Queen - Donna, Tanya & Rosie</li>
-              <li onclick="selectTrack(1)">2. Super Trouper - Donna & The Dynamos</li>
-              <li onclick="selectTrack(2)">3. Mamma Mia - Donna Sheridan</li>
-              <li onclick="selectTrack(3)">4. Money, Money, Money - Donna (Villa Donna Roof Repair Blues)</li>
-            </ul>
+          <div class="youtube-player-container">
+            <iframe width="100%" height="220" src="https://www.youtube.com/embed/tuHwCJzrtjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
         </div>
 
@@ -171,24 +136,17 @@
           <div class="blurb-section">
             <h3 class="sub-title">About me:</h3>
             <p>
-              YASAS! 👋 I'm <strong>Donna Sheridan</strong> — 48 years young, ex-lead singer of <em>Donna & The Dynamos</em>, and proud owner/builder/plumber/cook of <strong>Villa Donna</strong> on the gorgeous island of Kalokairi! 🇬🇷
-            </p>
-            <p>
-              20 years ago I arrived on this rock with a broken heart, a guitar, and a dream. Now I run a chaotic hostel with my own two hands, wear denim dungarees every day, have wild messy hair that refuses to stay in place, and I wouldn't trade it for the world!
-            </p>
-            <p>
-              ⚡ <strong>BIGGEST NEWS EVER:</strong> My beautiful daughter <strong>Sophie</strong> is getting married to Sky in 3 weeks! 👰✨ I'm currently running around trying to fix the courtyard, stop the goats from eating the wedding invitations, and mentally prepare to let my baby girl go.
+              YASAS! 👋 I'm <strong>Donna Sheridan</strong> — ex-lead singer of <em>Donna & The Dynamos</em> on the gorgeous island of Kalokairi! 🇬🇷 Mother to Sophie, lover of denim dungarees, wild music, and island life! 💃✨
             </p>
           </div>
 
           <div class="blurb-section">
             <h3 class="sub-title">Who I'd like to meet / Life Philosophy:</h3>
             <p>
-              Anyone who knows how to fix a generator without charging me a fortune! 🛠️ Also looking forward to seeing my besties <strong>Tanya</strong> & <strong>Rosie</strong> who are flying in for the wedding. We are gonna drink prosecco, put on our spandex jumpsuits, and sing until the sun comes up over the Aegean!
+              Friends, music lovers, and anyone ready to dance under the Aegean stars! 🪩✨
             </p>
             <div class="quote-box">
-              "I was working late, I was eating out, I was down and out... I work all night, I work all day to pay the bills I have to pay, ain't it sad? <br>
-              <strong>The Winner Takes It All</strong>, the loser's standing small, beside the victory... that's her destiny!" 💃✨
+              "Life is short, the world is wide. I'm making memories!" 💙
             </div>
           </div>
         </div>
@@ -201,19 +159,19 @@
           </p>
           <div class="dad-cards">
             <div class="dad-card" onclick="revealDadSecret('sam')">
-              <div class="dad-avatar">🏛️</div>
+              <div class="dad-avatar"><img src="images/sam.svg" alt="Sam" class="diary-avatar-img"></div>
               <strong>Sam Carmichael</strong>
               <small>The Irish Architect</small>
               <button class="reveal-btn">Inspect Entry</button>
             </div>
             <div class="dad-card" onclick="revealDadSecret('bill')">
-              <div class="dad-avatar">⛵</div>
+              <div class="dad-avatar"><img src="images/bill.svg" alt="Bill" class="diary-avatar-img"></div>
               <strong>Bill Anderson</strong>
               <small>The Swedish Adventurer</small>
               <button class="reveal-btn">Inspect Entry</button>
             </div>
             <div class="dad-card" onclick="revealDadSecret('harry')">
-              <div class="dad-avatar">🎸</div>
+              <div class="dad-avatar"><img src="images/harry.svg" alt="Harry" class="diary-avatar-img"></div>
               <strong>Harry Bright</strong>
               <small>Headbanger / London Banker</small>
               <button class="reveal-btn">Inspect Entry</button>
@@ -235,7 +193,7 @@
             <div class="friend-card">
               <a href="#tanya" class="friend-name">Tanya 🍸</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar tanya-avatar">👠</div>
+                <img src="images/tanya.svg" alt="Tanya" class="friend-avatar-img">
               </div>
               <span class="friend-status">"On my 4th husband & 2nd martini!"</span>
             </div>
@@ -244,7 +202,7 @@
             <div class="friend-card">
               <a href="#rosie" class="friend-name">Rosie 📚</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar rosie-avatar">📖</div>
+                <img src="images/rosie.svg" alt="Rosie" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Take a chance on me!"</span>
             </div>
@@ -253,7 +211,7 @@
             <div class="friend-card">
               <a href="#sophie" class="friend-name">Sophie 👰</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar sophie-avatar">🌺</div>
+                <img src="images/sophie.svg" alt="Sophie" class="friend-avatar-img">
               </div>
               <span class="friend-status">"I have a dream..."</span>
             </div>
@@ -262,7 +220,7 @@
             <div class="friend-card">
               <a href="#sky" class="friend-name">Sky 🏊</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar sky-avatar">🌊</div>
+                <img src="images/sky.svg" alt="Sky" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Ready for Kalokairi!"</span>
             </div>
@@ -271,7 +229,7 @@
             <div class="friend-card">
               <a href="#sam" class="friend-name">Sam C. 📐</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar sam-avatar">🏛️</div>
+                <img src="images/sam.svg" alt="Sam" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Drawing plans for Villa Donna"</span>
             </div>
@@ -280,7 +238,7 @@
             <div class="friend-card">
               <a href="#bill" class="friend-name">Bill A. 🧭</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar bill-avatar">⛵</div>
+                <img src="images/bill.svg" alt="Bill" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Sailing around the globe"</span>
             </div>
@@ -289,7 +247,7 @@
             <div class="friend-card">
               <a href="#harry" class="friend-name">Harry B. 🎸</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar harry-avatar">💳</div>
+                <img src="images/harry.svg" alt="Harry" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Our last summer in Paris..."</span>
             </div>
@@ -298,7 +256,7 @@
             <div class="friend-card">
               <a href="#pepper" class="friend-name">Pepper 🍹</a>
               <div class="friend-img-frame">
-                <div class="friend-avatar pepper-avatar">🌴</div>
+                <img src="images/pepper.svg" alt="Pepper" class="friend-avatar-img">
               </div>
               <span class="friend-status">"Tanya, does your mother know?"</span>
             </div>
