@@ -223,6 +223,36 @@ function triggerGreekOuzoAlert() {
   alert("🏛️ YASAS! Villa Donna Booking Request received!\n\nDonna says: 'I hope you don't mind cold showers and goats on the balcony, but the sunset is worth every penny!' 🌅🍷");
 }
 
+// 4. Falling Seashells Effect
+function createSeashells() {
+  const container = document.createElement('div');
+  container.id = 'seashells-container';
+  document.body.appendChild(container);
+
+  const shells = ['🐚', '🦪', '🐚', '🪸', '🐚'];
+  const count = 25;
+
+  for (let i = 0; i < count; i++) {
+    const shell = document.createElement('div');
+    shell.className = 'seashell';
+    shell.innerText = shells[Math.floor(Math.random() * shells.length)];
+
+    const size = Math.random() * 16 + 14; // 14px to 30px
+    const left = Math.random() * 100; // 0% to 100%
+    const duration = Math.random() * 5 + 5; // 5s to 10s
+    const delay = Math.random() * 5; // 0s to 5s
+
+    shell.style.fontSize = `${size}px`;
+    shell.style.left = `${left}vw`;
+    shell.style.animationDuration = `${duration}s`;
+    shell.style.animationDelay = `${delay}s`;
+
+    container.appendChild(shell);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', createSeashells);
+
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
