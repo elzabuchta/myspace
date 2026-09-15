@@ -1,20 +1,23 @@
 /* ==========================================================================
    MYSPACE THEME FOR DONNA SHERIDAN (MAMMA MIA!)
-   Palette: Aegean Sky Light Blue, Mediterranean Teal, Whitewashed White, Sun Gold
-   Vibe: Greek Island Mosaic, Mid-2000s MySpace Nostalgia, Southern Rustic Chaos
+   Palette: Dark Aegean Night Blue, Sun Yellow, Temple Gold, Greek Blue
+   Vibe: Greek Island Tropical & Ancient Architecture, Mid-2000s MySpace Nostalgia
    ========================================================================== */
 
 :root {
-  --bg-sky: #e0f4fc;
+  --bg-dark-aegean: #081325;
   --aegean-blue: #0077b6;
   --deep-aegean: #023e8a;
   --med-turquoise: #48cae4;
   --greek-light-blue: #90e0ef;
   --greek-white: #f8f9fa;
   --sun-gold: #ffb703;
+  --bright-yellow: #ffd700;
+  --gold-accent: #e0a96d;
+  --gold-border: #ffd700;
   --coral-accent: #fb8500;
   --text-dark: #1d3557;
-  --border-blue: #0096c7;
+  --border-yellow: #ffcc00;
   --myspace-link: #004b23;
 }
 
@@ -25,11 +28,13 @@
 }
 
 body {
-  background-color: var(--bg-sky);
+  background-color: var(--bg-dark-aegean);
+  /* Tropical Dark Blue Background with Greek Architectural Columns & Palm SVG Pattern */
   background-image:
-    radial-gradient(circle, rgba(0, 119, 182, 0.15) 2px, transparent 2px),
-    linear-gradient(to bottom, #bde0fe 0%, #edf6f9 100%);
-  background-size: 24px 24px, 100% 100%;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23081325'/%3E%3Cpath d='M10 110 L10 80 M16 110 L16 80 M22 110 L22 80 M6 80 L26 80 L16 70 Z' stroke='%231e3d59' stroke-width='1.5' fill='none' opacity='0.35'/%3E%3Cpath d='M70 110 L70 80 M76 110 L76 80 M82 110 L82 80 M66 80 L86 80 L76 70 Z' stroke='%231e3d59' stroke-width='1.5' fill='none' opacity='0.35'/%3E%3Ccircle cx='100' cy='30' r='12' fill='%23ffd700' opacity='0.15'/%3E%3Cpath d='M35 35 Q45 25 55 35 Q45 45 35 35 M45 35 Q45 15 45 55' stroke='%2317b978' stroke-width='1' fill='none' opacity='0.25'/%3E%3Cpath d='M0 115 L120 115' stroke='%23ffd700' stroke-width='1' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 20%, #102a45 0%, #081325 80%);
+  background-repeat: repeat, no-repeat;
+  background-size: 120px 120px, 100% 100%;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 11px;
   color: var(--text-dark);
@@ -38,21 +43,22 @@ body {
 
 /* Links */
 a {
-  color: #003399;
+  color: #0044cc;
   text-decoration: underline;
   font-weight: bold;
 }
 
 a:hover {
-  color: #cc0000;
+  color: #cc8800;
 }
 
 /* Header Navbar */
 .myspace-header {
-  background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
+  background: linear-gradient(180deg, #023e8a 0%, #081325 100%);
   color: white;
   padding: 8px 15px;
-  border-bottom: 3px solid var(--sun-gold);
+  border-bottom: 3px solid var(--bright-yellow);
+  box-shadow: 0 3px 10px rgba(255, 215, 0, 0.2);
 }
 
 .nav-container {
@@ -69,7 +75,7 @@ a:hover {
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  color: #ffffff;
+  color: var(--bright-yellow);
 }
 
 .tagline {
@@ -81,17 +87,22 @@ a:hover {
 .nav-search input {
   font-size: 11px;
   padding: 2px 6px;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--bright-yellow);
+  background: #ffffff;
 }
 
 .nav-search button {
-  background: var(--sun-gold);
+  background: var(--bright-yellow);
   border: 1px solid #d4a373;
   color: #000;
   font-size: 11px;
   font-weight: bold;
   padding: 2px 8px;
   cursor: pointer;
+}
+
+.nav-search button:hover {
+  background: #ffea00;
 }
 
 .nav-links {
@@ -105,6 +116,7 @@ a:hover {
 }
 
 .nav-links a:hover {
+  color: var(--bright-yellow);
   text-decoration: underline;
 }
 
@@ -114,15 +126,15 @@ a:hover {
   margin: 15px auto;
   padding: 10px;
   background-color: var(--greek-white);
-  border: 4px solid var(--aegean-blue);
-  box-shadow: 0 0 20px rgba(0, 119, 182, 0.3);
-  border-radius: 4px;
+  border: 4px solid var(--bright-yellow);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
+  border-radius: 6px;
 }
 
 /* Marquee / Status Ticker */
 .status-ticker {
-  background: #caf0f8;
-  border: 1px dashed var(--aegean-blue);
+  background: #fffbe6;
+  border: 2px solid var(--bright-yellow);
   color: var(--deep-aegean);
   font-size: 12px;
   font-weight: bold;
@@ -154,27 +166,29 @@ a:hover {
 /* Generic MySpace Box Styling */
 .profile-box {
   background: #ffffff;
-  border: 2px solid var(--aegean-blue);
+  border: 3px solid var(--bright-yellow);
   padding: 10px;
-  border-radius: 3px;
-  box-shadow: 2px 2px 0px var(--med-turquoise);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0px #0077b6, 0 0 5px rgba(255, 215, 0, 0.2);
 }
 
 .box-title {
-  background: linear-gradient(90deg, var(--aegean-blue) 0%, var(--med-turquoise) 100%);
+  background: linear-gradient(90deg, #023e8a 0%, #0077b6 60%, var(--bright-yellow) 100%);
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
-  padding: 4px 8px;
+  padding: 5px 8px;
   margin: -10px -10px 10px -10px;
-  border-bottom: 2px solid var(--deep-aegean);
+  border-bottom: 2px solid var(--bright-yellow);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px #000;
 }
 
 /* Left Column: User Identity */
 .user-identity {
-  background: #f0f9ff;
+  background: #fffdf0;
+  border-color: var(--bright-yellow);
 }
 
 .user-name {
@@ -192,10 +206,11 @@ a:hover {
 
 .mosaic-border {
   padding: 6px;
-  background-color: #0077b6;
-  background-image: repeating-linear-gradient(45deg, #0077b6 0, #0077b6 10px, #90e0ef 10px, #90e0ef 20px, #ffb703 20px, #ffb703 25px);
+  background-color: var(--bright-yellow);
+  background-image: repeating-linear-gradient(45deg, #ffd700 0, #ffd700 10px, #0077b6 10px, #0077b6 20px, #ffb703 20px, #ffb703 25px);
   border-radius: 6px;
   margin-bottom: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .donna-avatar-img {
@@ -208,8 +223,8 @@ a:hover {
 }
 
 .online-now {
-  background: #e8f5e9;
-  border: 1px solid #81c784;
+  background: #fffde6;
+  border: 2px solid var(--bright-yellow);
   color: #2e7d32;
   font-weight: bold;
   text-align: center;
@@ -241,7 +256,7 @@ a:hover {
 
 .user-details-list li {
   padding: 3px 0;
-  border-bottom: 1px dotted #bcd4e6;
+  border-bottom: 1px dotted var(--bright-yellow);
 }
 
 /* Contact Box */
@@ -252,8 +267,8 @@ a:hover {
 }
 
 .btn-ms {
-  background: linear-gradient(180deg, #ffffff 0%, #e0f4fc 100%);
-  border: 1px solid var(--aegean-blue);
+  background: linear-gradient(180deg, #fffdf0 0%, #fff3b0 100%);
+  border: 2px solid var(--bright-yellow);
   color: var(--deep-aegean);
   padding: 6px 4px;
   font-size: 10px;
@@ -264,9 +279,9 @@ a:hover {
 }
 
 .btn-ms:hover {
-  background: var(--sun-gold);
+  background: var(--bright-yellow);
   color: #000;
-  border-color: #d4a373;
+  border-color: #0077b6;
 }
 
 /* MySpace URL Box */
@@ -279,9 +294,9 @@ a:hover {
   font-size: 10px;
   word-break: break-all;
   color: #003399;
-  background: #eaf4f8;
+  background: #fffde6;
   padding: 4px;
-  border: 1px solid #bde0fe;
+  border: 1px solid var(--bright-yellow);
   margin-top: 4px;
 }
 
@@ -294,20 +309,20 @@ a:hover {
 .interests-table td {
   padding: 5px;
   vertical-align: top;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #f0e68c;
 }
 
 .interests-table .label {
   width: 30%;
-  background-color: #eaf4f8;
+  background-color: #fffde6;
   color: var(--deep-aegean);
   font-weight: bold;
 }
 
 /* Hotel Promo Banner */
 .hotel-promo {
-  background: linear-gradient(135deg, #fff9e6 0%, #e0f4fc 100%);
-  border: 2px dashed var(--sun-gold);
+  background: linear-gradient(135deg, #fffbe6 0%, #fff3b0 100%);
+  border: 2px dashed var(--bright-yellow);
 }
 
 .hotel-features {
@@ -317,9 +332,9 @@ a:hover {
 
 .booking-btn {
   width: 100%;
-  background: var(--coral-accent);
-  color: white;
-  border: none;
+  background: linear-gradient(180deg, var(--bright-yellow) 0%, var(--sun-gold) 100%);
+  color: #000000;
+  border: 1px solid #d4a373;
   font-weight: bold;
   padding: 8px;
   font-size: 11px;
@@ -329,18 +344,18 @@ a:hover {
 }
 
 .booking-btn:hover {
-  background: #e07a5f;
+  background: #ffea00;
 }
 
 /* Right Column: Music Player */
 .music-player-box {
-  background: #1b263b;
+  background: #0d1b2a;
   color: #ffffff;
-  border: 2px solid var(--sun-gold);
+  border: 3px solid var(--bright-yellow);
 }
 
 .player-header {
-  background: var(--sun-gold);
+  background: var(--bright-yellow);
   color: #000;
   padding: 5px 8px;
   font-weight: bold;
@@ -352,23 +367,23 @@ a:hover {
   display: flex;
   gap: 10px;
   align-items: center;
-  background: #0d1b2a;
+  background: #081325;
   padding: 8px;
   border-radius: 4px;
-  border: 1px solid #415a77;
+  border: 1px solid var(--bright-yellow);
 }
 
 .album-art {
   width: 75px;
   height: 75px;
-  background: linear-gradient(45deg, #ff007f, #7928ca, #00dfd8);
+  background: linear-gradient(45deg, #ffd700, #ffb703, #0077b6);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   border-radius: 4px;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 8px rgba(255,183,3,0.5);
+  border: 2px solid var(--bright-yellow);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
 }
 
 .dynamos-logo {
@@ -392,7 +407,8 @@ a:hover {
 .time-bar {
   width: 100%;
   height: 8px;
-  background: #415a77;
+  background: #1b263b;
+  border: 1px solid var(--bright-yellow);
   border-radius: 4px;
   overflow: hidden;
   margin-top: 4px;
@@ -401,7 +417,7 @@ a:hover {
 .time-progress {
   width: 35%;
   height: 100%;
-  background: var(--sun-gold);
+  background: var(--bright-yellow);
   transition: width 0.3s;
 }
 
@@ -414,7 +430,7 @@ a:hover {
 .player-btns button {
   background: var(--aegean-blue);
   color: white;
-  border: 1px solid var(--greek-light-blue);
+  border: 1px solid var(--bright-yellow);
   padding: 3px 8px;
   font-size: 10px;
   cursor: pointer;
@@ -422,7 +438,7 @@ a:hover {
 }
 
 .player-btns button:hover {
-  background: var(--sun-gold);
+  background: var(--bright-yellow);
   color: black;
 }
 
@@ -435,12 +451,12 @@ a:hover {
   padding: 4px 6px;
   font-size: 10px;
   cursor: pointer;
-  border-bottom: 1px solid #2b3a4a;
+  border-bottom: 1px solid #1b263b;
 }
 
 .playlist li:hover, .playlist li.active {
-  background: #415a77;
-  color: var(--sun-gold);
+  background: #1b263b;
+  color: var(--bright-yellow);
 }
 
 /* Blurbs Box */
@@ -449,16 +465,16 @@ a:hover {
 }
 
 .sub-title {
-  color: var(--coral-accent);
+  color: var(--deep-aegean);
   font-size: 12px;
   font-weight: bold;
   margin-bottom: 4px;
-  border-bottom: 1px dashed var(--coral-accent);
+  border-bottom: 2px solid var(--bright-yellow);
 }
 
 .quote-box {
-  background: #e0f4fc;
-  border-left: 4px solid var(--aegean-blue);
+  background: #fffde6;
+  border-left: 4px solid var(--bright-yellow);
   padding: 8px;
   font-style: italic;
   font-weight: bold;
@@ -467,15 +483,16 @@ a:hover {
   font-size: 11px;
 }
 
-/* Diary & Dad Mystery Box */
+/* Diary & Dad Mystery Box (Replaced Pink with Gold / Yellow & Blue) */
 .diary-mystery-box {
-  background: #fff0f5;
-  border-color: #ffb6c1;
+  background: #fffdf0;
+  border-color: var(--bright-yellow);
 }
 
 .diary-intro {
   margin-bottom: 10px;
-  color: #8b008b;
+  color: var(--deep-aegean);
+  font-weight: bold;
 }
 
 .dad-cards {
@@ -487,7 +504,7 @@ a:hover {
 .dad-card {
   flex: 1;
   background: #ffffff;
-  border: 1px solid #ffb6c1;
+  border: 2px solid var(--bright-yellow);
   padding: 8px;
   text-align: center;
   border-radius: 4px;
@@ -497,7 +514,8 @@ a:hover {
 
 .dad-card:hover {
   transform: translateY(-2px);
-  background: #ffe4e1;
+  background: #fffbe6;
+  border-color: var(--aegean-blue);
 }
 
 .dad-avatar {
@@ -519,29 +537,175 @@ a:hover {
 }
 
 .reveal-btn {
-  background: #ff69b4;
-  color: white;
-  border: none;
+  background: var(--bright-yellow);
+  color: #000;
+  border: 1px solid #d4a373;
+  font-weight: bold;
   font-size: 9px;
   padding: 2px 6px;
   border-radius: 2px;
   cursor: pointer;
 }
 
+.reveal-btn:hover {
+  background: #ffea00;
+}
+
 .diary-output {
   background: #ffffff;
-  border: 1px dashed #ff69b4;
+  border: 2px dashed var(--bright-yellow);
   padding: 10px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 11px;
-  color: #4a0033;
+  color: var(--deep-aegean);
   min-height: 50px;
   border-radius: 4px;
+}
+
+/* GREEK HOUSE BUILDER MINI-GAME STYLES */
+.builder-box {
+  background: #fffdf0;
+  border: 3px solid var(--bright-yellow);
+}
+
+.builder-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  background: #fffbe6;
+  padding: 8px;
+  border: 1px solid var(--bright-yellow);
+  border-radius: 4px;
+}
+
+.builder-palette-title {
+  width: 100%;
+  font-weight: bold;
+  font-size: 11px;
+  color: var(--deep-aegean);
+  margin-bottom: 2px;
+}
+
+.block-btn {
+  background: #ffffff;
+  border: 2px solid var(--bright-yellow);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.block-btn:hover, .block-btn.active {
+  background: var(--bright-yellow);
+  border-color: var(--aegean-blue);
+  transform: scale(1.05);
+}
+
+.builder-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background: linear-gradient(to bottom, #0077b6 0%, #90e0ef 60%, #e0a96d 60%, #d4a373 100%);
+  border: 3px solid var(--bright-yellow);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Background elements inside house builder canvas */
+.builder-sky-bg {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+}
+
+.builder-ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: #e0a96d;
+  border-top: 3px solid #b5835a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.builder-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  padding: 4px;
+}
+
+.grid-cell {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px stroke rgba(255, 215, 0, 0.3);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.grid-cell:hover {
+  background: rgba(255, 215, 0, 0.4);
+  border: 1px dashed var(--bright-yellow);
+}
+
+.builder-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.action-btn {
+  background: var(--aegean-blue);
+  color: #ffffff;
+  border: 1px solid var(--bright-yellow);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background: var(--bright-yellow);
+  color: #000000;
+}
+
+.action-btn.reset-btn {
+  background: #c1121f;
+}
+
+.action-btn.reset-btn:hover {
+  background: #780000;
+  color: #fff;
 }
 
 /* Top 8 Friends Section */
 .top-friends-box {
   background: #ffffff;
+  border-color: var(--bright-yellow);
 }
 
 .top-friends-count {
@@ -558,8 +722,8 @@ a:hover {
 
 .friend-card {
   text-align: center;
-  background: #f0f9ff;
-  border: 1px solid #bde0fe;
+  background: #fffdf0;
+  border: 1px solid var(--bright-yellow);
   padding: 6px;
   border-radius: 4px;
 }
@@ -577,7 +741,7 @@ a:hover {
   width: 70px;
   height: 70px;
   margin: 0 auto 4px auto;
-  border: 2px solid var(--aegean-blue);
+  border: 2px solid var(--bright-yellow);
   background: #ffffff;
   display: flex;
   align-items: center;
@@ -599,9 +763,13 @@ a:hover {
 }
 
 /* Guestbook Section */
+.guestbook-box {
+  border-color: var(--bright-yellow);
+}
+
 .add-comment-form {
-  background: #eaf4f8;
-  border: 1px solid var(--border-blue);
+  background: #fffde6;
+  border: 1px solid var(--bright-yellow);
   padding: 8px;
   margin-bottom: 12px;
   border-radius: 4px;
@@ -621,7 +789,7 @@ a:hover {
 .form-row input, .form-row select {
   padding: 4px;
   font-size: 11px;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--bright-yellow);
   border-radius: 2px;
 }
 
@@ -633,15 +801,15 @@ a:hover {
   width: 100%;
   padding: 4px;
   font-size: 11px;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--bright-yellow);
   margin-bottom: 6px;
   border-radius: 2px;
 }
 
 .post-btn {
-  background: var(--aegean-blue);
-  color: white;
-  border: none;
+  background: var(--bright-yellow);
+  color: black;
+  border: 1px solid #d4a373;
   padding: 5px 12px;
   font-size: 11px;
   font-weight: bold;
@@ -650,7 +818,7 @@ a:hover {
 }
 
 .post-btn:hover {
-  background: var(--deep-aegean);
+  background: var(--sun-gold);
 }
 
 .comments-list {
@@ -663,7 +831,7 @@ a:hover {
   display: flex;
   gap: 10px;
   background: #ffffff;
-  border: 1px solid #d0e1fd;
+  border: 1px solid var(--bright-yellow);
   padding: 8px;
   border-radius: 4px;
 }
@@ -672,7 +840,7 @@ a:hover {
   width: 100px;
   text-align: center;
   flex-shrink: 0;
-  border-right: 1px dotted #bcd4e6;
+  border-right: 1px dotted var(--bright-yellow);
   padding-right: 8px;
 }
 
@@ -699,8 +867,8 @@ a:hover {
   text-align: center;
   padding: 15px;
   font-size: 10px;
-  color: #666;
-  border-top: 1px solid #ccc;
+  color: #ccc;
+  border-top: 1px solid var(--bright-yellow);
   margin-top: 20px;
 }
 
