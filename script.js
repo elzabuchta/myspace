@@ -166,7 +166,76 @@ function stopProgressBar() {
   }
 }
 
-// 3. Guestbook Comments Posting
+// 3. Greek House Builder Mini-Game Logic
+let currentSelectedBlock = '🏛️';
+
+function selectBlock(symbol, btnElem) {
+  currentSelectedBlock = symbol;
+
+  // Highlight active button
+  const buttons = document.querySelectorAll('.builder-controls .block-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  if (btnElem) {
+    btnElem.classList.add('active');
+  }
+
+  const statusElem = document.getElementById('builder-status');
+  if (statusElem) {
+    if (symbol === '') {
+      statusElem.innerText = "Aktivní nástroj: 🧹 Guma (Vymazat prvek)";
+    } else {
+      statusElem.innerText = "Aktivní blok: " + symbol;
+    }
+  }
+}
+
+function initBuilderGrid() {
+  const gridContainer = document.getElementById('builder-grid');
+  if (!gridContainer) return;
+
+  gridContainer.innerHTML = '';
+
+  // 8 columns x 5 rows = 40 cells
+  // Default starter Greek dome house preset map
+  const defaultPreset = {
+    // Row 2 (index 16-23)
+    18: '🔵', 19: '🛖', 20: '🔵',
+    // Row 3 (index 24-31)
+    26: '🧱', 27: '🪟', 28: '🧱', 29: '🌴',
+    // Row 4 (index 32-39)
+    34: '🏛️', 35: '🚪', 36: '🏛️', 37: '🏺'
+  };
+
+  for (let i = 0; i < 40; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.dataset.index = i;
+
+    if (defaultPreset[i]) {
+      cell.innerText = defaultPreset[i];
+    }
+
+    cell.addEventListener('click', function() {
+      this.innerText = currentSelectedBlock;
+    });
+
+    gridContainer.appendChild(cell);
+  }
+}
+
+function resetBuilderGrid() {
+  const cells = document.querySelectorAll('.grid-cell');
+  cells.forEach(cell => {
+    cell.innerText = '';
+  });
+}
+
+// Initialize Builder Grid on DOM loaded
+document.addEventListener('DOMContentLoaded', function() {
+  initBuilderGrid();
+});
+
+// 4. Guestbook Comments Posting
 let commentCounter = 4;
 
 function postComment() {
