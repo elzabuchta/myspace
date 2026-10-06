@@ -1,262 +1,779 @@
-// Interactive Features for Donna Sheridan's MySpace Profile
+// Theme Engine & Core State
 
-// 1. Secret Diary Entries / Dad Mystery
-const diarySecrets = {
-  sam: `<strong>Diary Entry - July 17, 1979:</strong><br>
-  "Sam took me to the old ruin on top of the hill today... He's an architect, so he drew plans for a dream house for us on Kalokairi. He has this irresistible Irish charm. But yesterday he mentioned a fiancée back home in London... How could he break my heart like that?? 💔"`,
+const STORAGE_KEY_THEME = 'knihovnicek_theme';
+const STORAGE_KEY_BOOKS = 'knihovnicek_books';
 
-  bill: `<strong>Diary Entry - July 28, 1979:</strong><br>
-  "Bill Anderson saved me today with his sailboat! He was so spontaneous and full of adventure. We sailed around the bay, drank Greek wine, and laughed under the Aegean stars. He handed me the helm and said I was born to live on this island. ⛵✨"`,
+let html5QrCode = null;
+let isScannerRunning = false;
+let isProcessingScan = false;
+let currentScannedBook = null;
 
-  harry: `<strong>Diary Entry - August 8, 1979:</strong><br>
-  "Harry 'Spontaneous' Bright turned up with his guitar! He's such a sweet London gentleman with his headbanging rock spirit. He bought me a headful of flowers and played guitar for me all evening by the water. Our last summer together... 🎸🇬🇷"`
-};
+// Czech alphabet sequence for jump navigation
+const CZECH_ALPHABET = ['A','B','C','Č','D','E','F','G','H','CH','I','J','K','L','M','N','O','P','R','Ř','S','Š','T','U','V','W','X','Y','Z','Ž'];
 
-function revealDadSecret(dadKey) {
-  const outputDiv = document.getElementById('diary-modal-content');
-  if (diarySecrets[dadKey]) {
-    outputDiv.innerHTML = diarySecrets[dadKey];
-  }
+// Initialize Theme
+function initTheme() {
+  const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'dark';
+  setTheme(savedTheme);
 }
 
-// 2. Simulated Web Audio API Synth / Music Player Tracks
-const tracks = [
-  { title: "Track 1: Dancing Queen (Dynamos Acoustic Mix)", freq: 440 },
-  { title: "Track 2: Super Trouper - Donna & The Dynamos", freq: 523.25 },
-  { title: "Track 3: Mamma Mia - Donna Sheridan", freq: 659.25 },
-  { title: "Track 4: Money, Money, Money (Villa Donna Blues)", freq: 392 }
-];
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(STORAGE_KEY_THEME, theme);
 
-let currentTrackIndex = 0;
-let isPlaying = false;
-let audioCtx = null;
-let oscillator = null;
-let progressInterval = null;
-let progressPercent = 0;
+  const quickBtn = document.getElementById('theme-toggle-quick');
+  const switchElem = document.getElementById('theme-toggle-switch');
+  const statusText = document.getElementById('theme-status-text');
 
-function updateTrackUI() {
-  const titleElem = document.getElementById('current-song-title');
-  if (titleElem) {
-    titleElem.innerText = tracks[currentTrackIndex].title;
-  }
-
-  // Highlight active playlist item
-  const playlistItems = document.querySelectorAll('.playlist li');
-  playlistItems.forEach((item, index) => {
-    if (index === currentTrackIndex) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-
-  resetProgressBar();
-}
-
-function selectTrack(index) {
-  currentTrackIndex = index;
-  updateTrackUI();
-  if (isPlaying) {
-    stopSynth();
-    playSynth();
-  }
-}
-
-function prevTrack() {
-  currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-  updateTrackUI();
-  if (isPlaying) {
-    stopSynth();
-    playSynth();
-  }
-}
-
-function nextTrack() {
-  currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-  updateTrackUI();
-  if (isPlaying) {
-    stopSynth();
-    playSynth();
-  }
-}
-
-function togglePlay() {
-  const playBtn = document.getElementById('play-btn');
-  if (!isPlaying) {
-    isPlaying = true;
-    if (playBtn) playBtn.innerText = "⏸️ Pause";
-    playSynth();
-    startProgressBar();
+  if (theme === 'dark') {
+    if (quickBtn) quickBtn.innerText = '☀️';
+    if (switchElem) switchElem.checked = false;
+    if (statusText) statusText.innerText = 'Tmavý režim (černá / šedá / červenooranžová)';
   } else {
-    isPlaying = false;
-    if (playBtn) playBtn.innerText = "▶️ Play Synth Track";
-    stopSynth();
-    stopProgressBar();
+    if (quickBtn) quickBtn.innerText = '🌙';
+    if (switchElem) switchElem.checked = true;
+    if (statusText) statusText.innerText = 'Světlý režim (bílá / světle šedá / červenooranžová)';
   }
 }
 
-function playSynth() {
-  try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+}
 
-    // Play a friendly cheerful melodic synth note simulating 70s ABBA tune
-    oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+function handleThemeToggleChange(event) {
+  const newTheme = event.target.checked ? 'light' : 'dark';
+  setTheme(newTheme);
+}
 
-    oscillator.type = 'triangle';
-    oscillator.frequency.setValueAtTime(tracks[currentTrackIndex].freq, audioCtx.currentTime);
+// Navigation Engine
+function navigateTo(screenId) {
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(screen => screen.classList.remove('active'));
 
-    // Slight vibrato for disco flare
-    const lfo = audioCtx.createOscillator();
-    lfo.frequency.value = 5; // 5Hz vibrato
-    const lfoGain = audioCtx.createGain();
-    lfoGain.gain.value = 8;
-    lfo.connect(oscillator.frequency);
-    lfo.start();
-
-    gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-
-    oscillator.start();
-  } catch (e) {
-    console.log('Web Audio API initialized on user gesture.');
+  const targetScreen = document.getElementById(screenId);
+  if (targetScreen) {
+    targetScreen.classList.add('active');
   }
-}
 
-function stopSynth() {
-  if (oscillator) {
-    try {
-      oscillator.stop();
-      oscillator.disconnect();
-    } catch(e) {}
-    oscillator = null;
+  // Camera start/stop handling
+  if (screenId === 'screen-scanner') {
+    startCameraScanner();
+  } else {
+    stopCameraScanner();
   }
-}
 
-function resetProgressBar() {
-  progressPercent = 0;
-  const progressBar = document.getElementById('progress-bar');
-  if (progressBar) progressBar.style.width = '0%';
-}
-
-function startProgressBar() {
-  stopProgressBar();
-  progressInterval = setInterval(() => {
-    progressPercent += 2;
-    if (progressPercent > 100) {
-      nextTrack();
-    } else {
-      const progressBar = document.getElementById('progress-bar');
-      if (progressBar) progressBar.style.width = progressPercent + '%';
-    }
-  }, 300);
-}
-
-function stopProgressBar() {
-  if (progressInterval) {
-    clearInterval(progressInterval);
-    progressInterval = null;
+  // Refresh library list when navigating to library screen
+  if (screenId === 'screen-library') {
+    renderLibrary();
   }
+
+  updateMenuBookCount();
+  window.scrollTo(0, 0);
 }
 
-// 3. Guestbook Comments Posting
-let commentCounter = 4;
+function stopScannerAndGoHome() {
+  stopCameraScanner();
+  navigateTo('screen-main-menu');
+}
 
-function postComment() {
-  const nameInput = document.getElementById('guest-name');
-  const avatarSelect = document.getElementById('guest-avatar-select');
-  const msgInput = document.getElementById('guest-msg');
-  const commentsList = document.getElementById('comments-list');
-  const countElem = document.getElementById('comment-count');
+// --- BARCODE CAMERA SCANNER ---
 
-  const name = nameInput.value.trim() || "Anonymous Islander";
-  const avatar = avatarSelect.value;
-  const msg = msgInput.value.trim();
-
-  if (!msg) {
-    alert("Please write a message before posting to Donna's guestbook!");
+function startCameraScanner() {
+  const statusElem = document.getElementById('camera-status');
+  if (typeof Html5Qrcode === 'undefined') {
+    if (statusElem) statusElem.innerText = 'Knihovna pro skenování se načítá...';
+    setTimeout(startCameraScanner, 500);
     return;
   }
 
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
-                  ' at ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (isScannerRunning) return;
 
-  commentCounter++;
+  if (!html5QrCode) {
+    html5QrCode = new Html5Qrcode("reader");
+  }
 
-  const commentHtml = `
-    <div class="comment-item">
-      <div class="comment-author">
-        <div class="author-pic">${avatar}</div>
-        <a href="#">${escapeHtml(name)}</a>
-        <span class="comment-date">${dateStr}</span>
-      </div>
-      <div class="comment-text">
-        ${escapeHtml(msg)}
+  const config = {
+    fps: 10,
+    qrbox: { width: 260, height: 160 },
+    aspectRatio: 1.33333
+  };
+
+  if (statusElem) statusElem.innerText = 'Zapínám fotoaparát...';
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    config,
+    onBarcodeScanned,
+    onBarcodeScanError
+  ).then(() => {
+    isScannerRunning = true;
+    if (statusElem) statusElem.innerText = 'Namiřte fotoaparát na čárový kód knihy (ISBN)';
+  }).catch(err => {
+    console.warn("Camera start failed, falling back to manual input mode:", err);
+    isScannerRunning = false;
+    if (statusElem) statusElem.innerText = 'Fotoaparát je nedostupný. Použijte ruční zadání ISBN níže.';
+  });
+}
+
+function stopCameraScanner() {
+  if (html5QrCode && isScannerRunning) {
+    html5QrCode.stop().then(() => {
+      isScannerRunning = false;
+      const statusElem = document.getElementById('camera-status');
+      if (statusElem) statusElem.innerText = 'Fotoaparát vypnut.';
+    }).catch(err => {
+      console.warn("Error stopping camera:", err);
+      isScannerRunning = false;
+    });
+  }
+}
+
+function toggleCamera() {
+  if (isScannerRunning) {
+    stopCameraScanner();
+  } else {
+    startCameraScanner();
+  }
+}
+
+function onBarcodeScanned(decodedText, decodedResult) {
+  if (isProcessingScan) return;
+
+  const cleanIsbn = normalizeIsbn(decodedText);
+  if (isValidIsbn(cleanIsbn)) {
+    isProcessingScan = true;
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
+    processIsbnSearch(cleanIsbn);
+  }
+}
+
+function onBarcodeScanError(errorMessage) {
+  // Silent scan frame miss
+}
+
+// Normalize and Validate ISBN
+function normalizeIsbn(inputStr) {
+  if (!inputStr) return '';
+  return inputStr.replace(/[^0-9Xx]/g, '').toUpperCase();
+}
+
+function isValidIsbn(isbn) {
+  const clean = normalizeIsbn(isbn);
+  return clean.length === 10 || clean.length === 13;
+}
+
+function handleManualIsbnSubmit(event) {
+  event.preventDefault();
+  const inputElem = document.getElementById('isbn-input');
+  const rawValue = inputElem.value;
+  const cleanIsbn = normalizeIsbn(rawValue);
+
+  if (!cleanIsbn) {
+    alert("Prosím zadejte číslo ISBN.");
+    return;
+  }
+
+  if (!isValidIsbn(cleanIsbn)) {
+    alert("Zadané číslo neni platné ISBN (musí mít 10 nebo 13 číslic).");
+    return;
+  }
+
+  processIsbnSearch(cleanIsbn);
+}
+
+
+// --- BOOK LOOKUP ENGINE (Knihovny.cz & Fallbacks) ---
+
+async function processIsbnSearch(isbn) {
+  showLoadingModal('Vyhledávám knihu v databázích...');
+
+  try {
+    let book = await fetchBookFromKnihovnyCz(isbn);
+
+    // Fallback to Google Books or OpenLibrary if missing
+    if (!book || !book.title) {
+      const fallbackBook = await fetchBookFromGoogleBooks(isbn);
+      if (fallbackBook && fallbackBook.title) {
+        book = mergeBookData(book, fallbackBook);
+      }
+    }
+
+    if (!book || !book.title) {
+      const openLibBook = await fetchBookFromOpenLibrary(isbn);
+      if (openLibBook && openLibBook.title) {
+        book = mergeBookData(book, openLibBook);
+      }
+    }
+
+    hideLoadingModal();
+
+    if (book && book.title) {
+      currentScannedBook = book;
+      showBookResultModal(book);
+    } else {
+      showErrorModal("Vyskytl se problém a nelze knihu načíst.");
+    }
+  } catch (error) {
+    console.error("Lookup error:", error);
+    hideLoadingModal();
+    showErrorModal("Vyskytl se problém a nelze knihu načíst.");
+  }
+}
+
+function mergeBookData(primary, fallback) {
+  if (!primary) return fallback;
+  if (!fallback) return primary;
+
+  return {
+    isbn: primary.isbn || fallback.isbn,
+    title: primary.title || fallback.title || 'Neznámý název',
+    author: primary.author || fallback.author || 'Neznámý autor',
+    year: primary.year || fallback.year || 'Neuvedeno',
+    publisher: primary.publisher || fallback.publisher || 'Neuvedeno',
+    cover: primary.cover || fallback.cover || ''
+  };
+}
+
+// 1. Knihovny.cz API Fetcher
+async function fetchBookFromKnihovnyCz(isbn) {
+  try {
+    const url = `https://www.knihovny.cz/api/v1/search?lookfor=${encodeURIComponent(isbn)}&type=Isbn`;
+    const response = await fetch(url);
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    if (data && data.records && data.records.length > 0) {
+      const rec = data.records[0];
+
+      let title = rec.title || rec.shortTitle || '';
+      if (rec.subTitle) title += `: ${rec.subTitle}`;
+
+      let author = '';
+      if (rec.authors) {
+        if (rec.authors.primary) {
+          author = Object.keys(rec.authors.primary).join(', ');
+        } else if (Array.isArray(rec.authors)) {
+          author = rec.authors.join(', ');
+        }
+      }
+
+      let year = rec.publishDate || (rec.publicationDates ? rec.publicationDates[0] : '');
+      let publisher = rec.publisher || (rec.publishers ? rec.publishers[0] : '');
+
+      let cover = rec.cover || '';
+      if (!cover && rec.id) {
+        cover = `https://www.knihovny.cz/Cover/Show?id=${encodeURIComponent(rec.id)}&size=medium`;
+      }
+
+      return {
+        isbn: isbn,
+        title: title.trim(),
+        author: author.trim(),
+        year: year ? String(year).trim() : '',
+        publisher: publisher ? String(publisher).trim() : '',
+        cover: cover
+      };
+    }
+  } catch (err) {
+    console.warn("Knihovny.cz API fetch failed:", err);
+  }
+  return null;
+}
+
+// 2. Google Books API Fallback
+async function fetchBookFromGoogleBooks(isbn) {
+  try {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${encodeURIComponent(isbn)}`;
+    const response = await fetch(url);
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    if (data && data.items && data.items.length > 0) {
+      const info = data.items[0].volumeInfo;
+
+      let cover = '';
+      if (info.imageLinks) {
+        cover = info.imageLinks.thumbnail || info.imageLinks.smallThumbnail || '';
+        cover = cover.replace('http://', 'https://');
+      }
+
+      return {
+        isbn: isbn,
+        title: info.title || '',
+        author: info.authors ? info.authors.join(', ') : '',
+        year: info.publishedDate ? info.publishedDate.substring(0, 4) : '',
+        publisher: info.publisher || '',
+        cover: cover
+      };
+    }
+  } catch (err) {
+    console.warn("Google Books API fetch failed:", err);
+  }
+  return null;
+}
+
+// 3. OpenLibrary API Fallback
+async function fetchBookFromOpenLibrary(isbn) {
+  try {
+    const url = `https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`;
+    const response = await fetch(url);
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const key = `ISBN:${isbn}`;
+    if (data && data[key]) {
+      const bookData = data[key];
+
+      let cover = '';
+      if (bookData.cover) {
+        cover = bookData.cover.medium || bookData.cover.small || '';
+      }
+
+      return {
+        isbn: isbn,
+        title: bookData.title || '',
+        author: bookData.authors ? bookData.authors.map(a => a.name).join(', ') : '',
+        year: bookData.publish_date || '',
+        publisher: bookData.publishers ? bookData.publishers.map(p => p.name).join(', ') : '',
+        cover: cover
+      };
+    }
+  } catch (err) {
+    console.warn("OpenLibrary API fetch failed:", err);
+  }
+  return null;
+}
+
+
+// --- MODAL & UI HANDLERS ---
+
+function showLoadingModal(text) {
+  const modal = document.getElementById('modal-loading');
+  const textElem = document.getElementById('loading-text');
+  if (textElem) textElem.innerText = text || 'Vyhledávám...';
+  if (modal) modal.classList.remove('hidden');
+}
+
+function hideLoadingModal() {
+  const modal = document.getElementById('modal-loading');
+  if (modal) modal.classList.add('hidden');
+}
+
+function showErrorModal(message) {
+  const modal = document.getElementById('modal-error');
+  const msgElem = document.getElementById('error-message');
+  if (msgElem) msgElem.innerText = message || 'Vyskytl se problém a nelze knihu načíst.';
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeErrorAndGoHome() {
+  const modal = document.getElementById('modal-error');
+  if (modal) modal.classList.add('hidden');
+  isProcessingScan = false;
+  stopScannerAndGoHome();
+}
+
+function showBookResultModal(book) {
+  const modal = document.getElementById('modal-book-result');
+  const detailsElem = document.getElementById('modal-book-details');
+  const warningElem = document.getElementById('duplicate-warning');
+  const actionsElem = document.getElementById('modal-actions-container');
+
+  const existingBooks = getStoredBooks();
+  const isDuplicate = existingBooks.some(b => normalizeIsbn(b.isbn) === normalizeIsbn(book.isbn));
+
+  const coverSrc = book.cover ? book.cover : '';
+  const coverHtml = coverSrc
+    ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="preview-book-cover" onerror="this.onerror=null; this.outerHTML='<div class=\\'book-cover-placeholder\\'>📖</div>';" />`
+    : `<div class="book-cover-placeholder">📖</div>`;
+
+  detailsElem.innerHTML = `
+    <div class="preview-book-card">
+      ${coverHtml}
+      <div class="preview-book-details">
+        <h4 class="preview-title">${escapeHtml(book.title || 'Neznámý název')}</h4>
+        <div class="preview-author">${escapeHtml(book.author || 'Neznámý autor')}</div>
+        <div class="preview-meta">
+          ${book.year ? `<span>Rok: <strong>${escapeHtml(book.year)}</strong></span>` : ''}
+          ${book.publisher ? `<span> • ${escapeHtml(book.publisher)}</span>` : ''}
+        </div>
+        <div class="preview-meta" style="margin-top: 4px;">
+          <span>ISBN: ${escapeHtml(book.isbn)}</span>
+        </div>
       </div>
     </div>
   `;
 
-  commentsList.insertAdjacentHTML('afterbegin', commentHtml);
-  if (countElem) countElem.innerText = commentCounter;
+  if (isDuplicate) {
+    warningElem.classList.remove('hidden');
+    actionsElem.innerHTML = `
+      <button class="chunky-btn primary-btn" onclick="saveCurrentBook(true)">
+        ➕ Duplikovat
+      </button>
+      <button class="chunky-btn outline-btn" onclick="discardCurrentBook()">
+        🗑️ Zahodit
+      </button>
+    `;
+  } else {
+    warningElem.classList.add('hidden');
+    actionsElem.innerHTML = `
+      <button class="chunky-btn primary-btn" onclick="saveCurrentBook(false)">
+        📥 Přidat do knihovny
+      </button>
+      <button class="chunky-btn outline-btn" onclick="discardCurrentBook()">
+        🗑️ Zahodit
+      </button>
+    `;
+  }
 
-  // Clear input
-  msgInput.value = '';
-  nameInput.value = '';
-
-  alert("🎉 Your comment was posted to Donna's MySpace page!");
+  modal.classList.remove('hidden');
 }
 
-function focusCommentBox() {
-  const msgInput = document.getElementById('guest-msg');
-  if (msgInput) msgInput.focus();
+function discardCurrentBook() {
+  const modal = document.getElementById('modal-book-result');
+  if (modal) modal.classList.add('hidden');
+  currentScannedBook = null;
+  isProcessingScan = false;
 }
 
-function triggerGreekOuzoAlert() {
-  alert("🏛️ YASAS! Villa Donna Booking Request received!\n\nDonna says: 'I hope you don't mind cold showers and goats on the balcony, but the sunset is worth every penny!' 🌅🍷");
-}
+// --- LOCAL STORAGE & BOOK MANAGEMENT ---
 
-// 4. Falling Seashells Effect
-function createSeashells() {
-  const container = document.createElement('div');
-  container.id = 'seashells-container';
-  document.body.appendChild(container);
-
-  const shells = ['🐚', '🦪', '🐚', '🪸', '🐚'];
-  const count = 25;
-
-  for (let i = 0; i < count; i++) {
-    const shell = document.createElement('div');
-    shell.className = 'seashell';
-    shell.innerText = shells[Math.floor(Math.random() * shells.length)];
-
-    const size = Math.random() * 16 + 14; // 14px to 30px
-    const left = Math.random() * 100; // 0% to 100%
-    const duration = Math.random() * 5 + 5; // 5s to 10s
-    const delay = Math.random() * 5; // 0s to 5s
-
-    shell.style.fontSize = `${size}px`;
-    shell.style.left = `${left}vw`;
-    shell.style.animationDuration = `${duration}s`;
-    shell.style.animationDelay = `${delay}s`;
-
-    container.appendChild(shell);
+function getStoredBooks() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_BOOKS);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error("Error reading stored books:", e);
+    return [];
   }
 }
 
-document.addEventListener('DOMContentLoaded', createSeashells);
-
-function escapeHtml(str) {
-  return str.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+function saveStoredBooks(books) {
+  try {
+    localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(books));
+    updateMenuBookCount();
+  } catch (e) {
+    console.error("Error saving books:", e);
+  }
 }
+
+function saveCurrentBook(isDuplicateAllowed = false) {
+  if (!currentScannedBook) return;
+
+  const books = getStoredBooks();
+
+  const newEntry = {
+    ...currentScannedBook,
+    id: 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    addedAt: new Date().toISOString()
+  };
+
+  books.push(newEntry);
+  saveStoredBooks(books);
+
+  discardCurrentBook();
+  navigateTo('screen-library');
+}
+
+function deleteBookById(bookId) {
+  if (confirm("Opravdu chcete tuto knihu odebrat z knihovny?")) {
+    let books = getStoredBooks();
+    books = books.filter(b => b.id !== bookId);
+    saveStoredBooks(books);
+    renderLibrary();
+  }
+}
+
+function confirmClearLibrary() {
+  const books = getStoredBooks();
+  if (books.length === 0) return;
+
+  if (confirm("Opravdu chcete vymazat celou svou knihovnu? Tato akce je nevratná.")) {
+    saveStoredBooks([]);
+    renderLibrary();
+  }
+}
+
+function updateMenuBookCount() {
+  const books = getStoredBooks();
+  const countElem = document.getElementById('menu-book-count');
+  const libCountElem = document.getElementById('library-count');
+  if (countElem) countElem.innerText = books.length;
+  if (libCountElem) libCountElem.innerText = books.length;
+}
+
+
+// --- LIBRARY RENDER, ALPHABET SIDEBAR & SEARCH ---
+
+function getFirstLetter(str) {
+  if (!str) return '#';
+  const cleanStr = str.trim().toUpperCase();
+  if (cleanStr.startsWith('CH')) return 'CH';
+  const first = cleanStr.charAt(0);
+  // Match Czech characters or fallback to #
+  return first.match(/[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/i) ? normalizeCzechLetter(first) : '#';
+}
+
+function normalizeCzechLetter(char) {
+  const map = {
+    'Á':'A', 'Ä':'A',
+    'Č':'Č',
+    'Ď':'D',
+    'É':'E', 'Ě':'E',
+    'Í':'I',
+    'Ň':'N',
+    'Ó':'O', 'Ö':'O',
+    'Ř':'Ř',
+    'Š':'Š',
+    'Ť':'T',
+    'Ú':'U', 'Ů':'U', 'Ü':'U',
+    'Ý':'Y',
+    'Ž':'Ž'
+  };
+  return map[char] || char;
+}
+
+function renderLibrary() {
+  const booksListElem = document.getElementById('books-list');
+  const sidebarElem = document.getElementById('alphabet-sidebar');
+  const searchInput = document.getElementById('library-search-input');
+
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  let books = getStoredBooks();
+
+  // Sort alphabetically by title using Czech collation
+  books.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'cs', { sensitivity: 'base' }));
+
+  // Filter if query exists
+  if (query) {
+    books = books.filter(b =>
+      (b.title && b.title.toLowerCase().includes(query)) ||
+      (b.author && b.author.toLowerCase().includes(query)) ||
+      (b.isbn && b.isbn.toLowerCase().includes(query))
+    );
+  }
+
+  updateMenuBookCount();
+
+  // Render Alphabet Sidebar
+  renderAlphabetSidebar(books);
+
+  if (books.length === 0) {
+    if (query) {
+      booksListElem.innerHTML = `
+        <div class="empty-library">
+          <h3>Žádné výsledky</h3>
+          <p>Nenalezena žádná kniha odpovídající hledání "<strong>${escapeHtml(query)}</strong>".</p>
+        </div>
+      `;
+    } else {
+      booksListElem.innerHTML = `
+        <div class="empty-library">
+          <h3>Vaše knihovna je zatím prázdná</h3>
+          <p>Přidejte první knihy naskenováním čárového kódu nebo zadáním ISBN.</p>
+          <button class="chunky-btn primary-btn" onclick="navigateTo('screen-scanner')" style="margin-top: 16px;">
+            📷 Skenovat knihu
+          </button>
+        </div>
+      `;
+    }
+    return;
+  }
+
+  let html = '';
+  let currentLetterGroup = '';
+
+  books.forEach(book => {
+    const letter = getFirstLetter(book.title);
+    const idAnchor = `letter-group-${letter}`;
+
+    let anchorAttr = '';
+    if (letter !== currentLetterGroup) {
+      currentLetterGroup = letter;
+      anchorAttr = `id="${idAnchor}"`;
+    }
+
+    const coverSrc = book.cover ? book.cover : '';
+    const coverHtml = coverSrc
+      ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="this.onerror=null; this.outerHTML='<div class=\\'book-cover-placeholder\\'>📖</div>';" />`
+      : `<div class="book-cover-placeholder">📖</div>`;
+
+    html += `
+      <div class="book-card" ${anchorAttr}>
+        ${coverHtml}
+        <div class="book-info">
+          <div class="book-title">${escapeHtml(book.title || 'Neznámý název')}</div>
+          <div class="book-author">${escapeHtml(book.author || 'Neznámý autor')}</div>
+          <div class="book-meta">
+            ${book.year ? `<span>Rok: ${escapeHtml(book.year)}</span>` : ''}
+            ${book.publisher ? `<span>${book.year ? '• ' : ''}${escapeHtml(book.publisher)}</span>` : ''}
+          </div>
+        </div>
+        <div class="book-actions">
+          <button class="delete-book-btn" onclick="deleteBookById('${book.id}')" title="Odebrat knihu">
+            🗑️
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  booksListElem.innerHTML = html;
+}
+
+function renderAlphabetSidebar(books) {
+  const sidebarElem = document.getElementById('alphabet-sidebar');
+  if (!sidebarElem) return;
+
+  // Find letters present in current books
+  const presentLetters = new Set();
+  books.forEach(b => {
+    presentLetters.add(getFirstLetter(b.title));
+  });
+
+  let html = '';
+  CZECH_ALPHABET.forEach(lettr => {
+    const isPresent = presentLetters.has(lettr);
+    const activeClass = isPresent ? 'active' : '';
+    html += `
+      <button class="alpha-letter ${activeClass}" onclick="scrollToLetter('${lettr}')" ${!isPresent ? 'disabled style="opacity: 0.3;"' : ''}>
+        ${lettr}
+      </button>
+    `;
+  });
+
+  sidebarElem.innerHTML = html;
+}
+
+function scrollToLetter(letter) {
+  const targetElem = document.getElementById(`letter-group-${letter}`);
+  if (targetElem) {
+    targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function filterLibraryBooks() {
+  const searchInput = document.getElementById('library-search-input');
+  const clearBtn = document.getElementById('clear-search-btn');
+  if (clearBtn) {
+    if (searchInput.value.length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+  }
+  renderLibrary();
+}
+
+function clearLibrarySearch() {
+  const searchInput = document.getElementById('library-search-input');
+  if (searchInput) searchInput.value = '';
+  filterLibraryBooks();
+}
+
+
+// --- EXPORT & IMPORT DATA (JSON/CSV & Web Share) ---
+
+function exportLibraryData() {
+  const books = getStoredBooks();
+  if (books.length === 0) {
+    alert("Knihovna je prázdná, není co exportovat.");
+    return;
+  }
+
+  const exportData = JSON.stringify(books, null, 2);
+  const blob = new Blob([exportData], { type: 'application/json' });
+  const filename = `knihovna_export_${new Date().toISOString().slice(0, 10)}.json`;
+
+  // Web Share API support on iOS/Android if available
+  if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'application/json' })] })) {
+    const file = new File([blob], filename, { type: 'application/json' });
+    navigator.share({
+      title: 'Moje Knihovna Export',
+      text: `Export mé knihovny (${books.length} knih)`,
+      files: [file]
+    }).catch(err => {
+      console.log("Share failed or canceled, falling back to download:", err);
+      downloadFile(blob, filename);
+    });
+  } else {
+    downloadFile(blob, filename);
+  }
+}
+
+function downloadFile(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importLibraryData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedBooks = JSON.parse(e.target.result);
+      if (!Array.isArray(importedBooks)) {
+        alert("Neplatný soubor knihovny.");
+        return;
+      }
+
+      const existingBooks = getStoredBooks();
+      let addedCount = 0;
+
+      importedBooks.forEach(newBook => {
+        if (newBook.title) {
+          existingBooks.push({
+            ...newBook,
+            id: 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+          });
+          addedCount++;
+        }
+      });
+
+      saveStoredBooks(existingBooks);
+      renderLibrary();
+      alert(`Úspěšně importováno ${addedCount} knih do vaší knihovny.`);
+    } catch (err) {
+      alert("Chyba při čtení souboru: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+
+  // Reset input
+  event.target.value = '';
+}
+
+
+// Helper to escape HTML strings
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Global initialization
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  updateMenuBookCount();
+
+  const quickBtn = document.getElementById('theme-toggle-quick');
+  if (quickBtn) {
+    quickBtn.addEventListener('click', toggleTheme);
+  }
+});
