@@ -18,6 +18,7 @@
   --accent-hover: #e03d00;
   --accent-text: #ffffff;
 
+  --star-color: #ffb400;
   --danger-color: #ff3b30;
   --success-color: #34c759;
 
@@ -38,6 +39,7 @@
   --accent-hover: #e03d00;
   --accent-text: #ffffff;
 
+  --star-color: #ffb400;
   --danger-color: #ff3b30;
   --success-color: #34c759;
 
@@ -64,7 +66,29 @@ body {
   justify-content: center;
 }
 
-/* App Container (Max width for web, fits iPhone viewports) */
+/* Vector SVG Icon Styles */
+.svg-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.svg-hero {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  color: var(--accent-color);
+}
+
+.logo-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--accent-color);
+}
+
+/* App Container */
 .app-container {
   width: 100%;
   max-width: 500px;
@@ -96,10 +120,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.app-icon {
-  font-size: 26px;
+  cursor: pointer;
 }
 
 .app-title {
@@ -118,6 +139,9 @@ body {
   cursor: pointer;
   transition: transform 0.1s ease, background 0.2s ease;
   box-shadow: var(--shadow-chunky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-btn:active {
@@ -241,8 +265,16 @@ body {
 }
 
 .btn-icon {
-  font-size: 26px;
+  font-size: 24px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon .svg-icon {
+  width: 26px;
+  height: 26px;
 }
 
 .btn-text {
@@ -278,7 +310,6 @@ body {
 }
 
 .hero-icon {
-  font-size: 48px;
   margin-bottom: 8px;
 }
 
@@ -426,8 +457,9 @@ body {
 .search-icon {
   position: absolute;
   left: 12px;
-  font-size: 16px;
   pointer-events: none;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
@@ -562,7 +594,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -612,6 +643,9 @@ body {
   cursor: pointer;
   padding: 4px;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .delete-book-btn:hover {
@@ -634,7 +668,181 @@ body {
   margin-bottom: 8px;
 }
 
-/* --- SCREEN 4: SETTINGS --- */
+
+/* --- SCREEN 4: MONTHLY BOOKS & STAR RATINGS --- */
+.monthly-header-card {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow-chunky);
+}
+
+.monthly-header-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-color);
+  margin-bottom: 4px;
+}
+
+.monthly-header-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.monthly-books-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.monthly-book-card {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-chunky);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.monthly-book-main {
+  display: flex;
+  gap: 14px;
+}
+
+.star-rating-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--border-color);
+  transition: transform 0.1s ease;
+}
+
+.star-btn.active {
+  color: var(--star-color);
+}
+
+.star-btn:active {
+  transform: scale(1.2);
+}
+
+.comment-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-textarea {
+  width: 100%;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 13px;
+  outline: none;
+  resize: vertical;
+  min-height: 50px;
+}
+
+.comment-textarea:focus {
+  border-color: var(--accent-color);
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.review-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.review-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.review-stars {
+  color: var(--star-color);
+}
+
+
+/* --- SCREEN 5: SOCIAL - ACCOUNTS & FRIENDS --- */
+.social-card {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-chunky);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-card h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--accent-color);
+}
+
+.social-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-handle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+
+/* --- SCREEN 6: SETTINGS --- */
 .settings-card {
   background-color: var(--bg-secondary);
   border: 2px solid var(--border-color);
@@ -673,7 +881,7 @@ body {
   line-height: 1.3;
 }
 
-/* Simple Lightswitch Toggle */
+/* Lightswitch Toggle */
 .lightswitch {
   position: relative;
   display: inline-block;
@@ -856,10 +1064,6 @@ input:checked + .switch-slider:before {
 .error-card {
   text-align: center;
   align-items: center;
-}
-
-.error-icon {
-  font-size: 48px;
 }
 
 .error-card h3 {
