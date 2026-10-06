@@ -1,356 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MySpace.com - Donna Sheridan | Villa Donna Kalokairi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#121212">
+  <title>Skener Knih & Knihovna</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- html5-qrcode for barcode reading -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>
 <body>
 
-  <!-- Top Retro Navigation Bar -->
-  <header class="myspace-header">
-    <div class="nav-container">
-      <div class="logo">
-        <span class="ms-logo">myspace.com</span> | <span class="tagline">a place for friends</span>
+  <div class="app-container">
+
+    <!-- HEADER / APP BAR -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="logo-area">
+          <span class="app-icon">📚</span>
+          <h1 class="app-title">Knihovníček</h1>
+        </div>
+        <button id="theme-toggle-quick" class="icon-btn" title="Přepnout režim">🌙</button>
       </div>
-      <div class="nav-search">
-        <input type="text" value="Donna & The Dynamos" readonly>
-        <button>Search</button>
-      </div>
-      <nav class="nav-links">
-        <a href="#">Home</a> |
-        <a href="#">Browse</a> |
-        <a href="#">Search</a> |
-        <a href="#">Invite</a> |
-        <a href="#">Film</a> |
-        <a href="#">Music</a> |
-        <a href="#">Blog</a> |
-        <a href="#">Favorites</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Profile Wrapper with Mosaic & Aegean Theme -->
-  <main class="myspace-wrapper">
-    <!-- Ticker / Status Marquee -->
-    <div class="status-ticker">
-      <marquee behavior="scroll" direction="left" scrollamount="4">
-        ✨ 🌺 WELCOME TO KALOKAIRI! 🌺 ✨ Sophie's Wedding Countdown: 3 WEEKS!! 💍 | Villa Donna repairs in progress (HELP, roof leak in room 4!) | Donna & The Dynamos Reunion rumors?? 🎤💃 | Mood: Stressed, Wild & Dancing! 🧿
-      </marquee>
-    </div>
+    <!-- MAIN CONTAINER WITH SCREENS -->
+    <main class="app-main">
 
-    <!-- Master Layout Grid (2 Columns Classic MySpace) -->
-    <div class="profile-container">
-
-      <!-- LEFT COLUMN -->
-      <aside class="left-column">
-        <!-- Profile Header / Identity Box -->
-        <div class="profile-box user-identity">
-          <h1 class="user-name">Donna Sheridan 🧿</h1>
-          <div class="profile-headline">"Life is short, the world is wide. I'm making memories!" 🇬🇷💙</div>
-
-          <div class="avatar-frame">
-            <div class="mosaic-border">
-              <img src="donna.png" alt="Donna Sheridan" class="donna-avatar-img">
-            </div>
-            <div class="online-now">
-              <span class="online-indicator"></span> Donna is ONLINE NOW!
-            </div>
-          </div>
-
-          <ul class="user-details-list">
-            <li><strong>Age:</strong> 48</li>
-            <li><strong>Gender:</strong> Female 💃</li>
-            <li><strong>Location:</strong> Villa Donna, Kalokairi Island, GREECE 🇬🇷</li>
-            <li><strong>Status:</strong> Single & Unstoppable Mom!</li>
-            <li><strong>Occupation:</strong> Hotelier / Ex-Dynamo Lead Singer 🎤</li>
-            <li><strong>Outfit of the day:</strong> Vintage Denim Dungarees & Wild Hair!</li>
-            <li><strong>Current Mood:</strong> Stressed but Dancing 🪩</li>
-            <li><strong>Last Updated:</strong> May 2008</li>
-          </ul>
+      <!-- SCREEN 1: MAIN MENU -->
+      <section id="screen-main-menu" class="screen active">
+        <div class="menu-hero">
+          <div class="hero-icon">📖</div>
+          <h2>Rychlá evidence knih</h2>
+          <p class="hero-desc">Skenujte čárové kódy ISBN a spravujte svou knižní sbírku bez ručního psaní.</p>
         </div>
 
-        <!-- Contact Box -->
-        <div class="profile-box contact-box">
-          <h2 class="box-title">Contacting Donna</h2>
-          <div class="contact-buttons">
-            <button class="btn-ms" onclick="alert('Message sent to Donna via donkey courier!')">📩 Send Message</button>
-            <button class="btn-ms" onclick="alert('Donna added you to her Kalokairi VIP list!')">➕ Add to Friends</button>
-            <button class="btn-ms" onclick="alert('Forwarding Villa Donna brochure...')">💌 Forward to Friend</button>
-            <button class="btn-ms" onclick="alert('Adding Donna to Favorites!')">⭐ Add to Favorites</button>
-            <button class="btn-ms" onclick="alert('Donna\'s phone is currently ringing at Villa Donna reception!')">📞 Instant Message</button>
+        <div class="menu-buttons">
+          <button class="chunky-btn primary-btn large-btn" onclick="navigateTo('screen-scanner')">
+            <span class="btn-icon">📷</span>
+            <span class="btn-text">
+              <strong>Skenovat / Zadat ISBN</strong>
+              <small>Naskenujte kód fotoaparátem nebo zadejte ručně</small>
+            </span>
+          </button>
 
-            <button class="btn-ms" onclick="alert('Villa Donna Room Rates: 50 Drachmas / Euros a night!')">🏨 Book Villa Donna</button>
-          </div>
+          <button class="chunky-btn secondary-btn large-btn" onclick="navigateTo('screen-library')">
+            <span class="btn-icon">📚</span>
+            <span class="btn-text">
+              <strong>Moje Knihovna</strong>
+              <small>Prohlížet a vyhledávat uložené knihy (<span id="menu-book-count">0</span>)</small>
+            </span>
+          </button>
+
+          <button class="chunky-btn outline-btn large-btn" onclick="navigateTo('screen-settings')">
+            <span class="btn-icon">⚙️</span>
+            <span class="btn-text">
+              <strong>Nastavení</strong>
+              <small>Vzhled a možnosti aplikace</small>
+            </span>
+          </button>
         </div>
-
-        <!-- MySpace URL Box -->
-        <div class="profile-box url-box">
-          <h3>MySpace URL:</h3>
-          <p>http://www.myspace.com/donna_and_the_dynamos_kalokairi</p>
-        </div>
-
-        <!-- Interests Box -->
-        <div class="profile-box interests-box">
-          <h2 class="box-title">Donna's Interests</h2>
-          <table class="interests-table">
-            <tr>
-              <td class="label">General</td>
-              <td>Running a hotel with zero budget, fixing broken goat pens, beltin' out ABBA tunes, drinking ouzo at sunset, wearing overalls, island life.</td>
-            </tr>
-            <tr>
-              <td class="label">Music</td>
-              <td><strong>Donna & The Dynamos</strong>, ABBA, Disco, 70s Rock, Acoustic Greek Bouzouki, Anything you can dance to in platform boots! 👠</td>
-            </tr>
-            <tr>
-              <td class="label">Movies</td>
-              <td>Anything with a happy ending, Mamma Mia! backstage tapes, classic musicals.</td>
-            </tr>
-            <tr>
-              <td class="label">Heroes</td>
-              <td>My daughter <strong>Sophie</strong> 💖, Tanya & Rosie (The Dynamos forever!), and any woman who builds her own paradise from scratch.</td>
-            </tr>
-          </table>
-        </div>
-
-      </aside>
-
-      <!-- RIGHT COLUMN -->
-      <section class="right-column">
-
-        <!-- MySpace Music Player with Embedded YouTube Video -->
-        <div class="profile-box music-player-box">
-          <div class="player-header">
-            <span>🎵 MYSPACE MUSIC PLAYER: <strong>Donna Sheridan - Featured Song</strong></span>
-          </div>
-          <div class="youtube-player-container">
-            <iframe width="100%" height="220" src="https://www.youtube.com/embed/tuHwCJzrtjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <!-- Blurbs / About Donna -->
-        <div class="profile-box blurbs-box">
-          <h2 class="box-title">Donna's Blurbs</h2>
-
-          <div class="blurb-section">
-            <h3 class="sub-title">About me:</h3>
-            <p>
-              YASAS! 👋 I'm <strong>Donna Sheridan</strong> — ex-lead singer of <em>Donna & The Dynamos</em> on the gorgeous island of Kalokairi! 🇬🇷 Mother to Sophie, lover of denim dungarees, wild music, and island life! 💃✨
-            </p>
-          </div>
-
-          <div class="blurb-section">
-            <h3 class="sub-title">Who I'd like to meet / Life Philosophy:</h3>
-            <p>
-              Friends, music lovers, and anyone ready to dance under the Aegean stars! 🪩✨
-            </p>
-            <div class="quote-box">
-              "Life is short, the world is wide. I'm making memories!" 💙
-            </div>
-          </div>
-        </div>
-
-        <!-- Secret Diary / Dad Mystery Interactive Box -->
-        <div class="profile-box diary-mystery-box">
-          <h2 class="box-title">📖 Donna's Locked Diary (July 1979 Secrets)</h2>
-          <p class="diary-intro">
-            <em>"20 years ago... summer of '79... three handsome men... one unforgettable summer on the Mediterranean..."</em> 🤫
-          </p>
-          <div class="dad-cards">
-            <div class="dad-card" onclick="revealDadSecret('sam')">
-              <div class="dad-avatar"><img src="images/sam.svg" alt="Sam" class="diary-avatar-img"></div>
-              <strong>Sam Carmichael</strong>
-              <small>The Irish Architect</small>
-              <button class="reveal-btn">Inspect Entry</button>
-            </div>
-            <div class="dad-card" onclick="revealDadSecret('bill')">
-              <div class="dad-avatar"><img src="images/bill.svg" alt="Bill" class="diary-avatar-img"></div>
-              <strong>Bill Anderson</strong>
-              <small>The Swedish Adventurer</small>
-              <button class="reveal-btn">Inspect Entry</button>
-            </div>
-            <div class="dad-card" onclick="revealDadSecret('harry')">
-              <div class="dad-avatar"><img src="images/harry.svg" alt="Harry" class="diary-avatar-img"></div>
-              <strong>Harry Bright</strong>
-              <small>Headbanger / London Banker</small>
-              <button class="reveal-btn">Inspect Entry</button>
-            </div>
-          </div>
-          <div id="diary-modal-content" class="diary-output">
-            <em>Click a diary entry above to read Donna's nostalgic memories from 1979!</em>
-          </div>
-        </div>
-
-        <!-- Top 8 Friends Section -->
-        <div class="profile-box top-friends-box">
-          <h2 class="box-title">Donna's Top 8 Friends</h2>
-          <p class="top-friends-count">Donna has 8 friends in her top circle.</p>
-
-          <div class="friends-grid">
-
-            <!-- Friend 1: Tanya -->
-            <div class="friend-card">
-              <a href="#tanya" class="friend-name">Tanya 🍸</a>
-              <div class="friend-img-frame">
-                <img src="images/tanya.svg" alt="Tanya" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"On my 4th husband & 2nd martini!"</span>
-            </div>
-
-            <!-- Friend 2: Rosie -->
-            <div class="friend-card">
-              <a href="#rosie" class="friend-name">Rosie 📚</a>
-              <div class="friend-img-frame">
-                <img src="images/rosie.svg" alt="Rosie" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Take a chance on me!"</span>
-            </div>
-
-            <!-- Friend 3: Sophie -->
-            <div class="friend-card">
-              <a href="#sophie" class="friend-name">Sophie 👰</a>
-              <div class="friend-img-frame">
-                <img src="images/sophie.svg" alt="Sophie" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"I have a dream..."</span>
-            </div>
-
-            <!-- Friend 4: Sky -->
-            <div class="friend-card">
-              <a href="#sky" class="friend-name">Sky 🏊</a>
-              <div class="friend-img-frame">
-                <img src="images/sky.svg" alt="Sky" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Ready for Kalokairi!"</span>
-            </div>
-
-            <!-- Friend 5: Sam -->
-            <div class="friend-card">
-              <a href="#sam" class="friend-name">Sam C. 📐</a>
-              <div class="friend-img-frame">
-                <img src="images/sam.svg" alt="Sam" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Drawing plans for Villa Donna"</span>
-            </div>
-
-            <!-- Friend 6: Bill -->
-            <div class="friend-card">
-              <a href="#bill" class="friend-name">Bill A. 🧭</a>
-              <div class="friend-img-frame">
-                <img src="images/bill.svg" alt="Bill" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Sailing around the globe"</span>
-            </div>
-
-            <!-- Friend 7: Harry -->
-            <div class="friend-card">
-              <a href="#harry" class="friend-name">Harry B. 🎸</a>
-              <div class="friend-img-frame">
-                <img src="images/harry.svg" alt="Harry" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Our last summer in Paris..."</span>
-            </div>
-
-            <!-- Friend 8: Pepper -->
-            <div class="friend-card">
-              <a href="#pepper" class="friend-name">Pepper 🍹</a>
-              <div class="friend-img-frame">
-                <img src="images/pepper.svg" alt="Pepper" class="friend-avatar-img">
-              </div>
-              <span class="friend-status">"Tanya, does your mother know?"</span>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Interactive Guestbook Section -->
-        <div class="profile-box guestbook-box">
-          <h2 class="box-title">Donna's Guestbook Comments</h2>
-          <p>Displaying <span id="comment-count">4</span> of 4 comments (<a href="#add" onclick="focusCommentBox()">Add Comment</a>)</p>
-
-          <!-- Add Comment Form -->
-          <div class="add-comment-form">
-            <h4>Leave a comment for Donna:</h4>
-            <div class="form-row">
-              <input type="text" id="guest-name" placeholder="Your Name (e.g. Tanya, Sam, Local Fisherman)">
-              <select id="guest-avatar-select">
-                <option value="🍸">🍸 Tanya</option>
-                <option value="📚">📚 Rosie</option>
-                <option value="👰">👰 Sophie</option>
-                <option value="🏛️">🏛️ Sam</option>
-                <option value="⛵">⛵ Bill</option>
-                <option value="🎸">🎸 Harry</option>
-                <option value="🌊">🌊 Sky</option>
-                <option value="🌺">🌺 Kalokairi Local</option>
-              </select>
-            </div>
-            <textarea id="guest-msg" rows="3" placeholder="Write something sweet or chaotic..."></textarea>
-            <button onclick="postComment()" class="post-btn">Post MySpace Comment 💬</button>
-          </div>
-
-          <!-- Comments Feed -->
-          <div class="comments-list" id="comments-list">
-
-            <!-- Comment 1 -->
-            <div class="comment-item">
-              <div class="comment-author">
-                <div class="author-pic">🍸</div>
-                <a href="#">Tanya</a>
-                <span class="comment-date">May 12, 2008 at 4:15 PM</span>
-              </div>
-              <div class="comment-text">
-                DONNA DARLING! 💖 Just landed at the port! My heels got stuck in the cobblestones and a goat tried to eat my Prada bag, but I am READY for champagne! Get the spandex out, Donna & The Dynamos are BACK! 🍸✨
-              </div>
-            </div>
-
-            <!-- Comment 2 -->
-            <div class="comment-item">
-              <div class="comment-author">
-                <div class="author-pic">📚</div>
-                <a href="#">Rosie</a>
-                <span class="comment-date">May 12, 2008 at 5:30 PM</span>
-              </div>
-              <div class="comment-text">
-                Donna!! Save some ouzo for me! I brought my cookbook and a spare pair of overalls. Also, who is that cute Swedish sailor I saw on the ferry?? 👀 See you at Villa Donna in 10 mins!
-              </div>
-            </div>
-
-            <!-- Comment 3 -->
-            <div class="comment-item">
-              <div class="comment-author">
-                <div class="author-pic">👰</div>
-                <a href="#">Sophie</a>
-                <span class="comment-date">May 11, 2008 at 9:02 PM</span>
-              </div>
-              <div class="comment-text">
-                Mom, stop stressing about the roof! Sky and I are fixing the lanterns in the courtyard. I love you so much! Everything is going to be magical! 🌺👰
-              </div>
-            </div>
-
-            <!-- Comment 4 -->
-            <div class="comment-item">
-              <div class="comment-author">
-                <div class="author-pic">🏛️</div>
-                <a href="#">Sam Carmichael</a>
-                <span class="comment-date">May 10, 2008 at 2:14 PM</span>
-              </div>
-              <div class="comment-text">
-                Donna... I saw your hostel profile on MySpace. The architecture is still as wild as you are. I hope you don't mind, but I might be dropping by Kalokairi soon... 🏛️
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </section>
 
-    </div>
-  </main>
 
-  <footer class="myspace-footer">
-    <p>© 2008 MySpace.com. All rights reserved. | Fan-made profile for <strong>Donna Sheridan (Mamma Mia!)</strong> on Kalokairi Island 🇬🇷</p>
-  </footer>
+      <!-- SCREEN 2: SCANNER & MANUAL ISBN INPUT -->
+      <section id="screen-scanner" class="screen">
+        <div class="screen-header">
+          <button class="chunky-btn back-btn" onclick="stopScannerAndGoHome()">
+            ⬅️ ZPĚT
+          </button>
+          <h2>Skener & Zadání ISBN</h2>
+        </div>
+
+        <div class="scanner-card">
+          <!-- Camera Feed Container -->
+          <div class="camera-wrapper">
+            <div id="reader"></div>
+            <div class="camera-status" id="camera-status">Načítám fotoaparát...</div>
+          </div>
+
+          <div class="scanner-actions">
+            <button id="toggle-camera-btn" class="chunky-btn secondary-btn small-btn" onclick="toggleCamera()">
+              📷 Vypnout / Zapnout kameru
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div class="divider">
+            <span>nebo zadejte ručně</span>
+          </div>
+
+          <!-- Manual ISBN Input Form -->
+          <form id="manual-isbn-form" class="manual-input-form" onsubmit="handleManualIsbnSubmit(event)">
+            <label for="isbn-input" class="input-label">Číslo ISBN nebo EAN kód:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="isbn-input"
+                class="chunky-input"
+                placeholder="např. 9788020455550"
+                autocomplete="off"
+                inputmode="numeric"
+                pattern="[0-9xX\-]*"
+              />
+              <button type="submit" class="chunky-btn primary-btn">
+                Hledat 🔍
+              </button>
+            </div>
+            <small class="input-hint">Podporuje ISBN-10 i ISBN-13 (i s pomlčkami)</small>
+          </form>
+        </div>
+      </section>
+
+
+      <!-- SCREEN 3: LIBRARY VIEW -->
+      <section id="screen-library" class="screen">
+        <div class="screen-header">
+          <button class="chunky-btn back-btn" onclick="navigateTo('screen-main-menu')">
+            ⬅️ ZPĚT
+          </button>
+          <h2>Moje Knihovna</h2>
+        </div>
+
+        <!-- Search & Stats Bar -->
+        <div class="library-controls">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="library-search-input"
+              class="chunky-input search-input"
+              placeholder="Hledat knihu dle názvu..."
+              oninput="filterLibraryBooks()"
+            />
+            <button id="clear-search-btn" class="clear-btn hidden" onclick="clearLibrarySearch()">✖</button>
+          </div>
+
+          <div class="library-toolbar">
+            <span class="count-badge"><strong id="library-count">0</strong> knih</span>
+            <div class="tool-buttons">
+              <button class="chunky-btn mini-btn" onclick="exportLibraryData()" title="Exportovat seznam">
+                📤 Export
+              </button>
+
+              <label class="chunky-btn mini-btn" title="Importovat ze souboru">
+                📥 Import
+                <input type="file" id="import-file-input" accept=".json" onchange="importLibraryData(event)" style="display:none;" />
+              </label>
+
+              <button class="chunky-btn mini-btn danger-text" onclick="confirmClearLibrary()" title="Smazat vše">
+                🗑️
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Library Books List and A-Z Sidebar Container -->
+        <div class="library-body">
+
+          <!-- Alphabet Jump Sidebar (A-Z) -->
+          <nav class="alphabet-sidebar" id="alphabet-sidebar">
+            <!-- Dynamically populated A-Z buttons -->
+          </nav>
+
+          <!-- Book Cards List -->
+          <div class="books-list" id="books-list">
+            <!-- Dynamically inserted book cards -->
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- SCREEN 4: SETTINGS -->
+      <section id="screen-settings" class="screen">
+        <div class="screen-header">
+          <button class="chunky-btn back-btn" onclick="navigateTo('screen-main-menu')">
+            ⬅️ ZPĚT
+          </button>
+          <h2>Nastavení</h2>
+        </div>
+
+        <div class="settings-card">
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-title">Režim zobrazení</span>
+              <span class="setting-desc" id="theme-status-text">Tmavý režim (černá / šedá / červenooranžová)</span>
+            </div>
+            <label class="lightswitch">
+              <input type="checkbox" id="theme-toggle-switch" onchange="handleThemeToggleChange(event)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-title">Informace o aplikaci</span>
+              <span class="setting-desc">Knihovníček v1.0 • Pro Knihovny</span>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-title">Ukládání dat</span>
+              <span class="setting-desc">Data se ukládají lokálně v telefonu (localStorage). Funguje offline.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MODAL 1: BOOK FOUND PREVIEW / DUPLICATE PROMPT -->
+    <div id="modal-book-result" class="modal-overlay hidden">
+      <div class="modal-card chunky-modal">
+        <div class="modal-header">
+          <h3 id="modal-result-title">Nalezená kniha</h3>
+        </div>
+
+        <div class="modal-body" id="modal-book-details">
+          <!-- Book metadata filled dynamically -->
+        </div>
+
+        <div class="duplicate-warning hidden" id="duplicate-warning">
+          ⚠️ <strong>Tato kniha už je ve vaší knihovně!</strong>
+        </div>
+
+        <div class="modal-actions" id="modal-actions-container">
+          <!-- Action buttons filled dynamically -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- MODAL 2: SEARCH / LOADING OVERLAY -->
+    <div id="modal-loading" class="modal-overlay hidden">
+      <div class="modal-card loading-card">
+        <div class="spinner"></div>
+        <p id="loading-text">Vyhledávám knihu v databázích...</p>
+      </div>
+    </div>
+
+
+    <!-- MODAL 3: ERROR MESSAGE OVERLAY -->
+    <div id="modal-error" class="modal-overlay hidden">
+      <div class="modal-card error-card">
+        <div class="error-icon">⚠️</div>
+        <h3>Vyskytl se problém</h3>
+        <p id="error-message">Vyskytl se problém a nelze knihu načíst.</p>
+        <button class="chunky-btn primary-btn" onclick="closeErrorAndGoHome()">
+          Rozumím - Návrat na Hlavní menu
+        </button>
+      </div>
+    </div>
+
+  </div>
 
   <script src="script.js"></script>
 </body>
