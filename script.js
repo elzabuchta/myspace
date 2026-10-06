@@ -28,11 +28,11 @@ function setTheme(theme) {
   if (theme === 'dark') {
     if (quickBtn) quickBtn.innerText = '☀️';
     if (switchElem) switchElem.checked = false;
-    if (statusText) statusText.innerText = 'Tmavý režim (černá / šedá / červenooranžová)';
+    if (statusText) statusText.innerText = 'Tmavý režim';
   } else {
     if (quickBtn) quickBtn.innerText = '🌙';
     if (switchElem) switchElem.checked = true;
-    if (statusText) statusText.innerText = 'Světlý režim (bílá / světle šedá / červenooranžová)';
+    if (statusText) statusText.innerText = 'Světlý režim';
   }
 }
 
