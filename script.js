@@ -247,7 +247,7 @@ const TRANSLATIONS = {
   }
 };
 
-// Recommended Featured Books with high-res public cover images
+// Recommended Featured Books with reliable Wikimedia/OpenLibrary public cover images
 const RECOMMENDED_BOOKS = [
   {
     id: "rec_1",
@@ -256,7 +256,7 @@ const RECOMMENDED_BOOKS = [
     author: "George Orwell",
     publisher: "Odeon",
     year: "2015",
-    cover: "https://covers.openlibrary.org/b/id/11153217-M.jpg",
+    cover: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Animal_Farm_1st_edition.jpg",
     description: "Alegorický satirický román ukazující formou bajky formy totalitní diktatury."
   },
   {
@@ -266,7 +266,7 @@ const RECOMMENDED_BOOKS = [
     author: "Oscar Wilde",
     publisher: "Leda",
     year: "2019",
-    cover: "https://covers.openlibrary.org/b/id/12832523-M.jpg",
+    cover: "https://upload.wikimedia.org/wikipedia/commons/2/24/Picture_of_Dorian_Gray_1890.jpg",
     description: "Příběh mladého muže, jehož krása nevadne, zatímco jeho portrét zachycuje stopy hříchů."
   },
   {
@@ -276,7 +276,7 @@ const RECOMMENDED_BOOKS = [
     author: "Antoine de Saint-Exupéry",
     publisher: "Albatros",
     year: "2014",
-    cover: "https://covers.openlibrary.org/b/id/10522856-M.jpg",
+    cover: "https://upload.wikimedia.org/wikipedia/commons/7/7d/The_Little_Prince_1943_edition_cover.jpg",
     description: "Světoznámé filozofické dílo o přátelství, lásce a lidských hodnotách."
   }
 ];
@@ -692,7 +692,7 @@ function showBookResultModal(book) {
   const coverSrc = book.cover ? book.cover : '';
   const bookSvgPlaceholder = `<div class="book-cover-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg></div>`;
   const coverHtml = coverSrc
-    ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="preview-book-cover" onerror="this.onerror=null; this.outerHTML='${bookSvgPlaceholder}';" />`
+    ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="preview-book-cover" onerror="handleCoverError(this)" />`
     : bookSvgPlaceholder;
 
   detailsElem.innerHTML = `
@@ -811,6 +811,10 @@ function handleDemoLoginSubmit(event) {
   closeLoginModal();
 }
 
+function handleGoogleSignInClick() {
+  alert("Pro aktivaci Google přihlášení zadejte váš platný Google Client ID v souboru index.html (místo YOUR_GOOGLE_CLIENT_ID).\n\nPro vyzkoušení funkce přihlášení použijte Demo přihlášení níže!");
+}
+
 function handleGoogleSignInResponse(response) {
   try {
     // Decode Google JWT credential payload
@@ -891,12 +895,31 @@ function confirmClearLibrary() {
   }
 }
 
+function formatBookCount(count, lang) {
+  if (lang === 'cs') {
+    if (count === 1) return `1 kniha`;
+    if (count >= 2 && count <= 4) return `${count} knihy`;
+    return `${count} knih`;
+  } else if (lang === 'pl') {
+    if (count === 1) return `1 książka`;
+    if (count >= 2 && count <= 4) return `${count} książki`;
+    return `${count} książek`;
+  } else {
+    if (count === 1) return `1 book`;
+    return `${count} books`;
+  }
+}
+
 function updateMenuBookCount() {
   const books = getStoredBooks();
+  const lang = getCurrentLang();
   const countElem = document.getElementById('menu-book-count');
   const libCountElem = document.getElementById('library-count');
+
+  const formattedLabel = formatBookCount(books.length, lang);
+
   if (countElem) countElem.innerText = books.length;
-  if (libCountElem) libCountElem.innerText = books.length;
+  if (libCountElem) libCountElem.innerText = formattedLabel;
 }
 
 
@@ -990,7 +1013,7 @@ function renderLibrary() {
     const coverSrc = book.cover ? book.cover : '';
     const bookSvgPlaceholder = `<div class="book-cover-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg></div>`;
     const coverHtml = coverSrc
-      ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="this.onerror=null; this.outerHTML='${bookSvgPlaceholder}';" />`
+      ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="handleCoverError(this)" />`
       : bookSvgPlaceholder;
 
     const yearStr = book.year ? escapeHtml(book.year) : '';
@@ -1184,7 +1207,7 @@ function renderMonthlyBooks() {
     const coverSrc = book.cover ? book.cover : '';
     const bookSvgPlaceholder = `<div class="book-cover-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg></div>`;
     const coverHtml = coverSrc
-      ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="this.onerror=null; this.outerHTML='${bookSvgPlaceholder}';" />`
+      ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="handleCoverError(this)" />`
       : bookSvgPlaceholder;
 
     html += `
@@ -1318,6 +1341,16 @@ function inviteFriends() {
   copyLibraryShareLink();
 }
 
+
+function handleCoverError(imgElement) {
+  if (!imgElement) return;
+  const placeholder = document.createElement('div');
+  placeholder.className = 'book-cover-placeholder';
+  placeholder.innerHTML = `<svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>`;
+  if (imgElement.parentNode) {
+    imgElement.parentNode.replaceChild(placeholder, imgElement);
+  }
+}
 
 // Helper to escape HTML strings
 function escapeHtml(str) {
