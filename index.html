@@ -20,7 +20,8 @@
     <header class="app-header">
       <div class="header-content">
         <div class="logo-area" onclick="navigateTo('screen-main-menu')">
-          <svg class="svg-icon logo-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 2H6c-1.2 0-2 .8-2 2v16c0 1.2.8 2 2 2h13c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4zm13 16H6c-.6 0-1-.4-1-1s.4-1 1-1h13v2z"/></svg>
+          <!-- Bookshelf / Bookcase Vector SVG Icon -->
+          <svg class="svg-icon logo-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M4 2h16c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm0 2v4h16V4H4zm0 6v4h16v-4H4zm0 6v4h16v-4H4zm2-10h2v2H6V6zm3 0h2v2H9V6zm4 0h2v2h-2V6zm3 0h2v2h-2V6zm-10 6h2v2H6v-2zm3 0h2v2H9v-2zm4 0h2v2h-2v-2zm3 0h2v2h-2v-2zm-10 6h2v2H6v-2zm3 0h2v2H9v-2zm4 0h2v2h-2v-2zm3 0h2v2h-2v-2z"/></svg>
           <h1 class="app-title">Knihovníček</h1>
         </div>
         <div class="header-right">
@@ -38,10 +39,10 @@
       <section id="screen-main-menu" class="screen active">
 
         <!-- Rectangular Introductory Banner with Real Author Quote -->
-        <div class="intro-banner-card">
+        <div class="intro-banner-card" onclick="cycleQuote()" title="Klikněte pro změnu citátu">
           <div class="quote-content">
-            <p class="quote-text">„Kniha musí být sekerou na zamrzlé moře v nás.“</p>
-            <span class="quote-author">— Franz Kafka</span>
+            <p class="quote-text" id="banner-quote-text">„Kniha musí být sekerou na zamrzlé moře v nás.“</p>
+            <span class="quote-author" id="banner-quote-author">— Franz Kafka</span>
           </div>
         </div>
 
