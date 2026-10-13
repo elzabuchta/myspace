@@ -281,11 +281,229 @@ const RECOMMENDED_BOOKS = [
   }
 ];
 
-const RECOMMENDED_ACCOUNTS = [
-  { id: "acc_1", name: "Knihovna Národní", handle: "@nkp_cz", desc: "Oficiální účet Národní knihovny ČR" },
-  { id: "acc_2", name: "Městská knihovna Praha", handle: "@mlp_praha", desc: "Inspirace pro čtenáře a milovníky knih" },
-  { id: "acc_3", name: "Knihovník Pavel", handle: "@pavel_knihy", desc: "Recenze, tipy na čtení a novinky" }
+// Pool of 20 realistic Czech reader profiles with libraries and ratings from Knihovny.cz
+const USER_PROFILES_DATABASE = [
+  {
+    id: "user_1",
+    name: "Klára Nováková",
+    handle: "@klara_reads",
+    desc: "Milovnice české klasiky a poezie",
+    avatar: "👩",
+    library: [
+      { title: "Babička", author: "Božena Němcová", year: "2018", publisher: "Albatros", cover: "https://upload.wikimedia.org/wikipedia/commons/2/23/Babicka_Nemcova_1862.jpg", rating: 5, review: "Nádherná srdcová záležitost!" },
+      { title: "Máj", author: "Karel Hynek Mácha", year: "2015", publisher: "Odeon", cover: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Karel_Hynek_M%C3%A1cha_Maj_1836.jpg", rating: 5, review: "Vrchol české romantiky." },
+      { title: "R.U.R.", author: "Karel Čapek", year: "2020", publisher: "Leda", cover: "https://upload.wikimedia.org/wikipedia/commons/d/da/Capek_RUR_1920.jpg", rating: 4, review: "Prorocké dílo o robotech." }
+    ]
+  },
+  {
+    id: "user_2",
+    name: "Martin Dvořák",
+    handle: "@martind_knihy",
+    desc: "Knihovník a sběratel scifi",
+    avatar: "👨‍💼",
+    library: [
+      { title: "Farma zvířat", author: "George Orwell", year: "2015", publisher: "Odeon", cover: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Animal_Farm_1st_edition.jpg", rating: 5, review: "Stále děsivě aktuální." },
+      { title: "Krakatit", author: "Karel Čapek", year: "2019", publisher: "Vyšehrad", cover: "", rating: 4, review: "Napínavý román o nebezpečí vynálezu." },
+      { title: "1984", author: "George Orwell", year: "2017", publisher: "Argo", cover: "", rating: 5, review: "Geniální vize totalitního světa." }
+    ]
+  },
+  {
+    id: "user_3",
+    name: "Lucie Svobodová",
+    handle: "@lucka_knihomolka",
+    desc: "Čtu 50 knih ročně | Recenze a tipy",
+    avatar: "👩‍🦰",
+    library: [
+      { title: "Malý princ", author: "Antoine de Saint-Exupéry", year: "2014", publisher: "Albatros", cover: "https://upload.wikimedia.org/wikipedia/commons/7/7d/The_Little_Prince_1943_edition_cover.jpg", rating: 5, review: "To podstatné je očím neviditelné." },
+      { title: "Obraz Doriana Graye", author: "Oscar Wilde", year: "2019", publisher: "Leda", cover: "https://upload.wikimedia.org/wikipedia/commons/2/24/Picture_of_Dorian_Gray_1890.jpg", rating: 5, review: "Fascinující hluboký psychologický příběh." },
+      { title: "Pygmalion", author: "George Bernard Shaw", year: "2016", publisher: "Artur", cover: "", rating: 4, review: "Vtipná a poučná divadelní hra." }
+    ]
+  },
+  {
+    id: "user_4",
+    name: "Jan Černý",
+    handle: "@honza_ctu",
+    desc: "Historie, filozofie a životopisy",
+    avatar: "🧔",
+    library: [
+      { title: "Osudy dobrého vojáka Švejka", author: "Jaroslav Hašek", year: "2012", publisher: "Leda", cover: "", rating: 5, review: "Nesmrtelná česká satira!" },
+      { title: "Proměna", author: "Franz Kafka", year: "2018", publisher: "Odeon", cover: "", rating: 4, review: "Absurdní klenot světové literatury." }
+    ]
+  },
+  {
+    id: "user_5",
+    name: "Tereza Procházková",
+    handle: "@terka_lit",
+    desc: "Studentka bohemistiky na UK",
+    avatar: "👩‍🎓",
+    library: [
+      { title: "Krysař", author: "Viktor Dyk", year: "2017", publisher: "Městská knihovna v Praze", cover: "", rating: 5, review: "Úžasná baladická atmosféra." },
+      { title: "Spalovač mrtvol", author: "Ladislav Fuks", year: "2021", publisher: "Odeon", cover: "", rating: 5, review: "Mistrovský psychologický horor." }
+    ]
+  },
+  {
+    id: "user_6",
+    name: "Petr Kučera",
+    handle: "@petr_kucera_knihy",
+    desc: "Vášnivý čtenář detektivek",
+    avatar: "👨",
+    library: [
+      { title: "Pes baskervillský", author: "Arthur Conan Doyle", year: "2016", publisher: "Odeon", cover: "", rating: 5, review: "Nejlepší Sherlock Holmes!" },
+      { title: "Vražda v Orient-expressu", author: "Agatha Christie", year: "2020", publisher: "Knižní klub", cover: "", rating: 5, review: "Geniální zápletka i rozuzlení." }
+    ]
+  },
+  {
+    id: "user_7",
+    name: "Michaela Veselá",
+    handle: "@misa_knihy",
+    desc: "Doporučení pro dlouhé večery",
+    avatar: "👱‍♀️",
+    library: [
+      { title: "Jana Eyrová", author: "Charlotte Brontëová", year: "2018", publisher: "Odeon", cover: "", rating: 5, review: "Krásný romantický příběh." },
+      { title: "Pýcha a předsudek", author: "Jane Austenová", year: "2019", publisher: "Leda", cover: "", rating: 5, review: "Nezapomenutelná klasika." }
+    ]
+  },
+  {
+    id: "user_8",
+    name: "Tomáš Mareš",
+    handle: "@tomas_mares",
+    desc: "Knihy o cestování a přírodě",
+    avatar: "👨‍🌾",
+    library: [
+      { title: "Stařec a moře", author: "Ernest Hemingway", year: "2015", publisher: "Odeon", cover: "", rating: 5, review: "Síla lidského ducha a odhodlání." },
+      { title: "Na cestě", author: "Jack Kerouac", year: "2017", publisher: "Argo", cover: "", rating: 4, review: "Kultovní bible beatníků." }
+    ]
+  },
+  {
+    id: "user_9",
+    name: "Veronika Horáková",
+    handle: "@verca_books",
+    desc: "Fantasy a dobrodružná literatura",
+    avatar: "👩‍🎨",
+    library: [
+      { title: "Hobit", author: "J. R. R. Tolkien", year: "2018", publisher: "Argo", cover: "", rating: 5, review: "Začátek celého úžasného světa." },
+      { title: "Pán prstenů: Společenstvo Prstenu", author: "J. R. R. Tolkien", year: "2019", publisher: "Argo", cover: "", rating: 5, review: "Absolutní vrchol fantasy zánru." }
+    ]
+  },
+  {
+    id: "user_10",
+    name: "David Pokorný",
+    handle: "@david_knihovnik",
+    desc: "Vedoucí krajské knihovny",
+    avatar: "👨‍🏫",
+    library: [
+      { title: "Válka s Mloky", author: "Karel Čapek", year: "2018", publisher: "Vyšehrad", cover: "", rating: 5, review: "Nadčasové varování lidstvu." },
+      { title: "Bílá nemoc", author: "Karel Čapek", year: "2020", publisher: "Artur", cover: "", rating: 5, review: "Strhující protiválečné drama." }
+    ]
+  },
+  {
+    id: "user_11",
+    name: "Barbora Šimková",
+    handle: "@bara_reads",
+    desc: "Miluji českou meziválečnou tvorbu",
+    avatar: "👩‍🦱",
+    library: [
+      { title: "Bylo nás pět", author: "Karel Poláček", year: "2017", publisher: "Albatros", cover: "", rating: 5, review: "Úžasný humorný pohled na dětství." },
+      { title: "Markéta Lazarová", author: "Vladislav Vančura", year: "2016", publisher: "Odeon", cover: "", rating: 4, review: "Krásný poetický jazyk." }
+    ]
+  },
+  {
+    id: "user_12",
+    name: "Filip Urban",
+    handle: "@filip_urban_knihy",
+    desc: "Recenzent a redaktor",
+    avatar: "👨‍💻",
+    library: [
+      { title: "Zločin a trest", author: "Fjodor Michajlovič Dostojevskij", year: "2019", publisher: "Academia", cover: "", rating: 5, review: "Hluboká psychologická sonda." },
+      { title: "Mistr a Markétka", author: "Michail Bulgakov", year: "2020", publisher: "Vyšehrad", cover: "", rating: 5, review: "Geniální magický realismus." }
+    ]
+  },
+  {
+    id: "user_13",
+    name: "Zuzana Králová",
+    handle: "@zuzka_kralova",
+    desc: "Milovnice historických románů",
+    avatar: "👩‍💼",
+    library: [
+      { title: "Quo vadis", author: "Henryk Sienkiewicz", year: "2015", publisher: "Vyšehrad", cover: "", rating: 5, review: "Strhující obraz starověkého Říma." },
+      { title: "Egypťan Sinuhet", author: "Mika Waltari", year: "2018", publisher: "Odeon", cover: "", rating: 5, review: "Jedna z nejlepších knih mého života." }
+    ]
+  },
+  {
+    id: "user_14",
+    name: "Jakub Beneš",
+    handle: "@kuba_benes",
+    desc: "Čtenář současné i klasické prózy",
+    avatar: "👨‍🎨",
+    library: [
+      { title: "Ostře sledované vlaky", author: "Bohumil Hrabal", year: "2017", publisher: "Mladá fronta", cover: "", rating: 5, review: "Tragikomický příběh z války." },
+      { title: "Obsluhoval jsem anglického krále", author: "Bohumil Hrabal", year: "2019", publisher: "Odeon", cover: "", rating: 5, review: "Krásná poetika Bohumila Hrabala." }
+    ]
+  },
+  {
+    id: "user_15",
+    name: "Simona Fialová",
+    handle: "@simona_fialka",
+    desc: "Učitelka češtiny na gymnáziu",
+    avatar: "👩‍🏫",
+    library: [
+      { title: "Kytice", author: "Karel Jaromír Erben", year: "2020", publisher: "Albatros", cover: "", rating: 5, review: "Základ české poezie." },
+      { title: "Romeo a Julie", author: "William Shakespeare", year: "2018", publisher: "Artur", cover: "", rating: 5, review: "Nesmrtelná tragédie lásky." }
+    ]
+  },
+  {
+    id: "user_16",
+    name: "Ondřej Jelínek",
+    handle: "@ondra_jelinek",
+    desc: "Sběratel starých tisků a prvotisku",
+    avatar: "👨‍🔬",
+    library: [
+      { title: "Labyrint světa a ráj srdce", author: "Jan Amos Komenský", year: "2016", publisher: "Vyšehrad", cover: "", rating: 5, review: "Hluboké alegorické dílo." }
+    ]
+  },
+  {
+    id: "user_17",
+    name: "Eva Růžičková",
+    handle: "@eva_ruzickova",
+    desc: "Poezie, drama a esejistika",
+    avatar: "👩‍🌾",
+    library: [
+      { title: "Slezské písně", author: "Petr Bezruč", year: "2015", publisher: "Odeon", cover: "", rating: 4, review: "Silný sociální náboj." }
+    ]
+  },
+  {
+    id: "user_18",
+    name: "Michal Sedláček",
+    handle: "@michal_sedlacek",
+    desc: "Sci-fi, postapo a komiksy",
+    avatar: "👨‍🚀",
+    library: [
+      { title: "Marťan", author: "Andy Weir", year: "2018", publisher: "Knižní klub", cover: "", rating: 5, review: "Skvěle promyšlené sci-fi survival." }
+    ]
+  },
+  {
+    id: "user_19",
+    name: "Adéla Holubová",
+    handle: "@adela_holubova",
+    desc: "Knihy pro děti a mládež",
+    avatar: "👩‍⚕️",
+    library: [
+      { title: "Povídky z jedné a druhé kapsy", author: "Karel Čapek", year: "2019", publisher: "Leda", cover: "", rating: 5, review: "Báječné detektivní povídky." }
+    ]
+  },
+  {
+    id: "user_20",
+    name: "Václav Kolář",
+    handle: "@vaclav_kolar",
+    desc: "Filozofie a antická literatura",
+    avatar: "👨‍🦳",
+    library: [
+      { title: "Hovory k sobě", author: "Marcus Aurelius", year: "2020", publisher: "Antická knihovna", cover: "", rating: 5, review: "Stojické moudro pro každý den." }
+    ]
+  }
 ];
+
+let recommendedAccountOffset = 0;
 
 
 // --- I18N & LANGUAGE ENGINE ---
@@ -1309,6 +1527,17 @@ function toggleFollowAccount(accId) {
     console.error("Error saving follow state:", e);
   }
 
+  // Refresh user profile modal button if open
+  const profileModal = document.getElementById('modal-user-profile');
+  if (profileModal && !profileModal.classList.contains('hidden')) {
+    openUserProfileModal(accId);
+  }
+
+  renderSocialAccounts();
+}
+
+function refreshRecommendedAccounts() {
+  recommendedAccountOffset = (recommendedAccountOffset + 3) % USER_PROFILES_DATABASE.length;
   renderSocialAccounts();
 }
 
@@ -1318,14 +1547,23 @@ function renderSocialAccounts() {
 
   const follows = getStoredFollows();
 
+  // Slice 3 current accounts based on offset
+  const currentBatch = USER_PROFILES_DATABASE.slice(recommendedAccountOffset, recommendedAccountOffset + 3);
+
+  // Check if all displayed batch accounts are followed
+  const allBatchFollowed = currentBatch.length > 0 && currentBatch.every(acc => follows.includes(acc.id));
+
   let html = '';
-  RECOMMENDED_ACCOUNTS.forEach(acc => {
+  currentBatch.forEach(acc => {
     const isFollowing = follows.includes(acc.id);
     html += `
       <div class="account-item">
-        <div class="account-info">
-          <span class="account-name">${escapeHtml(acc.name)}</span>
-          <span class="account-handle">${escapeHtml(acc.handle)} • ${escapeHtml(acc.desc)}</span>
+        <div class="account-info" onclick="openUserProfileModal('${acc.id}')" style="cursor: pointer; flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">${acc.avatar || '👤'}</span>
+            <span class="account-name">${escapeHtml(acc.name)}</span>
+          </div>
+          <span class="account-handle" style="margin-top: 2px;">${escapeHtml(acc.handle)} • ${escapeHtml(acc.desc)} (${acc.library ? acc.library.length : 0} knih)</span>
         </div>
         <button class="chunky-btn ${isFollowing ? 'outline-btn' : 'primary-btn'} small-btn" onclick="toggleFollowAccount('${acc.id}')">
           ${isFollowing ? 'Sledováno ✓' : '+ Sledovat'}
@@ -1334,7 +1572,94 @@ function renderSocialAccounts() {
     `;
   });
 
+  if (allBatchFollowed || currentBatch.length < 3) {
+    html += `
+      <div style="text-align: center; margin-top: 12px;">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Sledujete všechny zobrazené čtenáře!</p>
+        <button class="chunky-btn primary-btn large-btn" onclick="refreshRecommendedAccounts()">
+          🔄 Načíst další čtenáře (Refresh)
+        </button>
+      </div>
+    `;
+  } else {
+    html += `
+      <div style="text-align: center; margin-top: 10px;">
+        <button class="chunky-btn secondary-btn small-btn" onclick="refreshRecommendedAccounts()">
+          🔄 Načíst další uživatele
+        </button>
+      </div>
+    `;
+  }
+
   listContainer.innerHTML = html;
+}
+
+function openUserProfileModal(userId) {
+  const user = USER_PROFILES_DATABASE.find(u => u.id === userId);
+  if (!user) return;
+
+  const modal = document.getElementById('modal-user-profile');
+  const contentElem = document.getElementById('modal-user-profile-content');
+  if (!modal || !contentElem) return;
+
+  const follows = getStoredFollows();
+  const isFollowing = follows.includes(user.id);
+
+  let booksHtml = '';
+  if (user.library && user.library.length > 0) {
+    user.library.forEach(b => {
+      let starsSvg = '';
+      for (let i = 1; i <= 5; i++) {
+        starsSvg += i <= (b.rating || 5) ? '★' : '☆';
+      }
+
+      const coverSrc = b.cover ? b.cover : '';
+      const bookSvgPlaceholder = `<div class="book-cover-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg></div>`;
+      const coverHtml = coverSrc
+        ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="handleCoverError(this)" />`
+        : bookSvgPlaceholder;
+
+      booksHtml += `
+        <div class="book-card" style="margin-bottom: 10px;">
+          ${coverHtml}
+          <div class="book-info">
+            <div class="book-title">${escapeHtml(b.title)}</div>
+            <div class="book-author">${escapeHtml(b.author)}</div>
+            <div class="book-meta"><span>${escapeHtml(b.publisher)} (${escapeHtml(b.year)})</span></div>
+            <div style="margin-top: 4px; font-size: 13px; color: var(--star-color);">${starsSvg}</div>
+            ${b.review ? `<p style="font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 2px;">„${escapeHtml(b.review)}“</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+  } else {
+    booksHtml = `<p style="color: var(--text-muted); text-align: center;">Tento uživatel nemá žádné knihy.</p>`;
+  }
+
+  contentElem.innerHTML = `
+    <div style="text-align: center; margin-bottom: 16px;">
+      <div style="font-size: 40px; margin-bottom: 4px;">${user.avatar || '👤'}</div>
+      <h3 style="font-size: 18px; font-weight: 800; color: var(--accent-color);">${escapeHtml(user.name)}</h3>
+      <div style="font-size: 13px; color: var(--text-muted);">${escapeHtml(user.handle)}</div>
+      <p style="font-size: 13px; margin-top: 6px;">${escapeHtml(user.desc)}</p>
+
+      <button class="chunky-btn ${isFollowing ? 'outline-btn' : 'primary-btn'} small-btn" style="margin-top: 12px;" onclick="toggleFollowAccount('${user.id}')">
+        ${isFollowing ? 'Sledováno ✓' : '+ Sledovat uživatele'}
+      </button>
+    </div>
+
+    <div style="border-top: 2px solid var(--border-color); padding-top: 14px;">
+      <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 10px;">Knihovna uživatele (${user.library ? user.library.length : 0} knih):</h4>
+      ${booksHtml}
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+}
+
+function closeUserProfileModal() {
+  const modal = document.getElementById('modal-user-profile');
+  if (modal) modal.classList.add('hidden');
 }
 
 function inviteFriends() {
