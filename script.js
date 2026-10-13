@@ -12,6 +12,33 @@ let isScannerRunning = false;
 let isProcessingScan = false;
 let currentScannedBook = null;
 
+// Array of inspiring literary quotes for cycling on banner click
+const LITERARY_QUOTES = [
+  { text_cs: "„Kniha musí být sekerou na zamrzlé moře v nás.“", text_pl: "„Książka musi być siekierą na zamarznięte morze w nas.”", text_en: "“A book must be the axe for the frozen sea within us.”", author: "— Franz Kafka" },
+  { text_cs: "„Nemilovat knihy znamená nemilovat moudrost. Nemilovat moudrost však znamená stávat se hluprákem.“", text_pl: "„Nie kochać książek to nie kochać mądrości.”", text_en: "“Not to love books is not to love wisdom.”", author: "— Jan Amos Komenský" },
+  { text_cs: "„Sober sobě světlem, člověče, a čti knihy.“", text_pl: "„Bądź sobie światłem i czytaj książki.”", text_en: "“Be a light unto yourself and read books.”", author: "— Karel Čapek" },
+  { text_cs: "„Dobré knihy neprozradí všechna svá tajemství najednou.“", text_pl: "„Dobre książki nie zdradzają wszystkich swoich sekretów naraz.”", text_en: "“Good books do not surrender all their secrets at once.”", author: "— Stephen King" },
+  { text_cs: "„Dům bez knih je jako tělo bez duše.“", text_pl: "„Dom bez książek jest jak ciało bez duszy.”", text_en: "“A room without books is like a body without a soul.”", author: "— Marcus Tullius Cicero" }
+];
+let currentQuoteIndex = 0;
+
+function cycleQuote() {
+  currentQuoteIndex = (currentQuoteIndex + 1) % LITERARY_QUOTES.length;
+  updateBannerQuoteDisplay();
+}
+
+function updateBannerQuoteDisplay() {
+  const lang = getCurrentLang();
+  const quote = LITERARY_QUOTES[currentQuoteIndex];
+  const qText = quote[`text_${lang}`] || quote.text_cs;
+
+  const textElem = document.getElementById('banner-quote-text');
+  const authorElem = document.getElementById('banner-quote-author');
+
+  if (textElem) textElem.innerText = qText;
+  if (authorElem) authorElem.innerText = quote.author;
+}
+
 // Czech alphabet sequence for jump navigation
 const CZECH_ALPHABET = ['A','B','C','Č','D','E','F','G','H','CH','I','J','K','L','M','N','O','P','R','Ř','S','Š','T','U','V','W','X','Y','Z','Ž'];
 
@@ -220,7 +247,7 @@ const TRANSLATIONS = {
   }
 };
 
-// Recommended Featured Books (Sourced metadata from Knihovny.cz)
+// Recommended Featured Books with high-res public cover images
 const RECOMMENDED_BOOKS = [
   {
     id: "rec_1",
@@ -229,7 +256,7 @@ const RECOMMENDED_BOOKS = [
     author: "George Orwell",
     publisher: "Odeon",
     year: "2015",
-    cover: "https://www.knihovny.cz/Cover/Show?id=SVK_ST-0000001&size=medium",
+    cover: "https://covers.openlibrary.org/b/id/11153217-M.jpg",
     description: "Alegorický satirický román ukazující formou bajky formy totalitní diktatury."
   },
   {
@@ -239,7 +266,7 @@ const RECOMMENDED_BOOKS = [
     author: "Oscar Wilde",
     publisher: "Leda",
     year: "2019",
-    cover: "https://www.knihovny.cz/Cover/Show?id=SVK_ST-0000002&size=medium",
+    cover: "https://covers.openlibrary.org/b/id/12832523-M.jpg",
     description: "Příběh mladého muže, jehož krása nevadne, zatímco jeho portrét zachycuje stopy hříchů."
   },
   {
@@ -249,7 +276,7 @@ const RECOMMENDED_BOOKS = [
     author: "Antoine de Saint-Exupéry",
     publisher: "Albatros",
     year: "2014",
-    cover: "https://www.knihovny.cz/Cover/Show?id=SVK_ST-0000003&size=medium",
+    cover: "https://covers.openlibrary.org/b/id/10522856-M.jpg",
     description: "Světoznámé filozofické dílo o přátelství, lásce a lidských hodnotách."
   }
 ];
@@ -296,10 +323,7 @@ function setLanguage(lang) {
   setTheme(currentTheme);
 
   // Update quote in banner
-  const quoteTextElem = document.querySelector('.quote-text');
-  const quoteAuthorElem = document.querySelector('.quote-author');
-  if (quoteTextElem) quoteTextElem.innerText = t.quote_text;
-  if (quoteAuthorElem) quoteAuthorElem.innerText = t.quote_author;
+  updateBannerQuoteDisplay();
 
   updateUserAuthBar();
 }
@@ -969,18 +993,29 @@ function renderLibrary() {
       ? `<img src="${escapeHtml(coverSrc)}" alt="Obálka" class="book-cover" onerror="this.onerror=null; this.outerHTML='${bookSvgPlaceholder}';" />`
       : bookSvgPlaceholder;
 
+    const yearStr = book.year ? escapeHtml(book.year) : '';
+    const publisherStr = book.publisher ? escapeHtml(book.publisher) : '';
+    let metaText = '';
+    if (yearStr && publisherStr) {
+      metaText = `Rok: ${yearStr} | Nakladatelství: ${publisherStr}`;
+    } else if (yearStr) {
+      metaText = `Rok: ${yearStr}`;
+    } else if (publisherStr) {
+      metaText = `Nakladatelství: ${publisherStr}`;
+    }
+
     html += `
       <div class="book-card" ${anchorAttr}>
         ${coverHtml}
         <div class="book-info">
           <div class="book-title">${escapeHtml(book.title || 'Neznámý název')}</div>
           <div class="book-author">${escapeHtml(book.author || 'Neznámý autor')}</div>
-          <div class="book-meta">
-            ${book.year ? `<span>Rok: ${escapeHtml(book.year)}</span>` : ''}
-            ${book.publisher ? `<span>${book.year ? '• ' : ''}${escapeHtml(book.publisher)}</span>` : ''}
-          </div>
+          ${metaText ? `<div class="book-meta"><span>${metaText}</span></div>` : ''}
         </div>
         <div class="book-actions">
+          <button class="share-book-btn" onclick="shareBookWithFriend('${book.id}')" title="Poslat knihu příteli">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+          </button>
           <button class="delete-book-btn" onclick="deleteBookById('${book.id}')" title="Odebrat knihu">
             <svg class="svg-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
           </button>
@@ -1041,17 +1076,44 @@ function clearLibrarySearch() {
   filterLibraryBooks();
 }
 
-function copyLibraryShareLink() {
-  const appUrl = window.location.href.split('#')[0];
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(appUrl).then(() => {
-      alert("Odkaz byl zkopírován do schránky!");
-    }).catch(() => {
-      prompt("Kopírujte odkaz:", appUrl);
+function shareBookWithFriend(bookId) {
+  const books = getStoredBooks();
+  const book = books.find(b => b.id === bookId);
+  if (!book) return;
+
+  const shareTitle = `Kniha: ${book.title}`;
+  const shareText = `Ahoj! Posílám ti tip na knihu z Knihovníčka: ${book.title} (${book.author || 'Autor neuveden'}). Checkni ji!`;
+  const shareUrl = `${window.location.href.split('#')[0]}?isbn=${encodeURIComponent(book.isbn || '')}`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: shareTitle,
+      text: shareText,
+      url: shareUrl
+    }).catch(err => {
+      copyToClipboardFallback(shareUrl, shareText);
     });
   } else {
-    prompt("Kopírujte odkaz:", appUrl);
+    copyToClipboardFallback(shareUrl, shareText);
   }
+}
+
+function copyToClipboardFallback(url, text) {
+  const fullPayload = `${text}\n${url}`;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(fullPayload).then(() => {
+      alert("Odkaz na knihu byl zkopírován do schránky! Můžeš ho poslat kamarádce.");
+    }).catch(() => {
+      prompt("Kopírujte odkaz na knihu pro přátele:", fullPayload);
+    });
+  } else {
+    prompt("Kopírujte odkaz na knihu pro přátele:", fullPayload);
+  }
+}
+
+function copyLibraryShareLink() {
+  const appUrl = window.location.href.split('#')[0];
+  copyToClipboardFallback(appUrl, "Připoj se ke mně v aplikaci Knihovníček!");
 }
 
 
@@ -1268,6 +1330,17 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+// Check URL parameters for shared ISBN link
+function checkUrlSharedIsbn() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const sharedIsbn = urlParams.get('isbn');
+  if (sharedIsbn && isValidIsbn(normalizeIsbn(sharedIsbn))) {
+    setTimeout(() => {
+      processIsbnSearch(normalizeIsbn(sharedIsbn));
+    }, 400);
+  }
+}
+
 // Global initialization
 document.addEventListener('DOMContentLoaded', () => {
   const currentLang = getCurrentLang();
@@ -1278,4 +1351,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (quickBtn) {
     quickBtn.addEventListener('click', toggleTheme);
   }
+
+  checkUrlSharedIsbn();
 });
